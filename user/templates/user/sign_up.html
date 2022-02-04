@@ -1,5 +1,6 @@
 
-<form method="post" action="{% url 'user:signup' %}">
+<form method="post" action="{% url 'user:signup' %}"> 
+  <!-- % url 'user:signup' %} → 'app:urlname'というふうに指定する必要がある。-->
 {% csrf_token %}
 <table>
 <tr>
