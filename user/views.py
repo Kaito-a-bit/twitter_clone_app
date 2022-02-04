@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from .forms import SignUpForm
 
 
-class HomeView(TemplateView):
+class BaseView(TemplateView):
     template_name='user/base.html'
     
 class SignUpView(CreateView):
