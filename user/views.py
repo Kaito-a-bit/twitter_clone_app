@@ -1,3 +1,4 @@
+from re import template
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login
 from django.views.generic.edit import CreateView
@@ -7,7 +8,10 @@ from .forms import SignUpForm
 
 
 class BaseView(TemplateView):
-    template_name='user/base.html'
+    template_name = 'user/base.html'
+
+class HomeView(TemplateView):
+    template_name = 'user/home.html'
     
 class SignUpView(CreateView):
     form_class = SignUpForm
