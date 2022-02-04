@@ -8,14 +8,14 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 
-    <title>{% block title %}{% endblock %}</title>   
+    <title>{% block title %}Twitter Clone{% endblock %}</title>   
   </head>
   <body>
     <div style="text-align:center;">
       <span><h1>Twitter Clone</h1></span>
       <a href="{% url 'user:signup' %}">ユーザ登録する</a>
     </div>
-    
+    {% block content %}{% endblock %}
   
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
