@@ -6,7 +6,7 @@ from .forms import SignUpForm
 
 class SignUpView(CreateView):
     form_class = SignUpForm
-    # template_name = テンプレート名
+    template_name = 'signup.html'
     # success_url = reverse_lazy(ログイン成功時のurl)
 
     def form_valid(self, form):
