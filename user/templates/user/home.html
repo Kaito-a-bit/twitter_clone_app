@@ -1,9 +1,9 @@
 {% load static %}
-
+<!-- ユーザ登録後もしくはログイン後に表示する画面 -->
 <html lang="ja">
  <head>
    <meta charset="utf-8">
-   <title>{% block title %}{% endblock %}}</title>
+   <title>{% block title %}Home{% endblock %}}</title>
    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
    
@@ -14,10 +14,9 @@
     {% include 'user/header.html' %}
     <h1>ホーム</h1>
     <p>{{ user.username }}さんようこそ。</p>
+
     {% block contents %}{% endblock %}
 
-
-<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 
 </body>
 
