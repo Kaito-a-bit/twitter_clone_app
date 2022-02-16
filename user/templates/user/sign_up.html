@@ -1,3 +1,4 @@
+{% extends 'user/base.html'%}
 {% load static %}
 <!doctype html>
 <html lang="ja">
@@ -13,27 +14,29 @@
 
 <body>
 
-    <div class="allContents">
-        <h1>ユーザ登録する</h1>
-        <form method="post" action="{% url 'user:signup' %}">
-            {% csrf_token %}
-            <div class="formItems">
-                <p>{{ form.username.label_tag }}</p>
-                <p>{{ form.username }}</p>
+        {% block content%}
+             ユーザ登録する
+        {% endblock%}
+        {% block second %}
+            <form method="post" action="{% url 'user:signup' %}">
+                {% csrf_token %}
+                <div class="formItems">
+                    <p>{{ form.username.label_tag }}</p>
+                    <p>{{ form.username }}</p>
 
-                <p>{{ form.email.label_tag }}</p>
-                <p>{{ form.email }}</p>
+                    <p>{{ form.email.label_tag }}</p>
+                    <p>{{ form.email }}</p>
 
-                <p>{{ form.password1.label_tag }}</p>
-                <p>{{ form.password1 }}</p>
+                    <p>{{ form.password1.label_tag }}</p>
+                    <p>{{ form.password1 }}</p>
 
-                <p>{{ form.password2.label_tag }}</p>
-                <p>{{ form.password2 }}</p>
-                <input type="submit" value="登録する" class="registerButton" />
-            </div>
-        </form>
+                    <p>{{ form.password2.label_tag }}</p>
+                    <p>{{ form.password2 }}</p>
+                    <input type="submit" value="登録する" class="registerButton" />
+                </div>
+            </form>
+        {% endblock%}
 
-    </div>
 
 
 </body>

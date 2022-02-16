@@ -8,7 +8,7 @@ from .forms import SignUpForm
 
 
 class BaseView(TemplateView):
-    template_name = 'user/base.html'
+    template_name = 'user/top.html'
 
 class HomeView(TemplateView):
     template_name = 'user/home.html'

@@ -12,10 +12,12 @@
 
 <body>
   <div style="text-align:center;" class="options">
-    <h1>Twitter Clone</h1>
-    <a href="{% url 'user:signup' %}">ユーザ登録する</a>
-    <a>ログインする</a>
-    <!-- ↑ログイン画面のURLを入れる -->
+    <h1>
+      {% block content%}
+      {% endblock%}
+    </h1>
+      {% block second %}
+      {% endblock%}
   </div>
   
 </body>
