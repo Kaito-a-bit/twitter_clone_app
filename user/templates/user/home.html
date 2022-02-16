@@ -1,10 +1,9 @@
 {% extends 'user/base.html'%}
 {% load static %}
 
-    {% block content%}
-      ホーム画面
-    {% endblock%}   
-    {% block second %}
-       {{ user.username }}さんようこそ。 
-    {% endblock%}
- 
+{% block content%}
+ホーム画面
+{% endblock%}
+{% block second %}
+{{ user.username }}さんようこそ。
+{% endblock%}
