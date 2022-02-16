@@ -1,4 +1,4 @@
-from re import template
+
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login
 from django.views.generic.edit import CreateView
@@ -23,5 +23,6 @@ class SignUpView(CreateView):
         login(self.request, user)
         self.object = user
         return HttpResponseRedirect(self.get_success_url()) 
+
 
 
