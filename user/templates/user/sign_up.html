@@ -5,7 +5,7 @@
 {% block content %}
 ユーザ登録する
 {% endblock %}
-{% block second %}
+{% block itemsbeforehome %}
 <form method="post" action="{% url 'user:signup' %}">
     {% csrf_token %}
     <div class="formItems">
