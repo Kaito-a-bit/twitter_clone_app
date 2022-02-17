@@ -5,21 +5,12 @@
 {% block content %}
 ユーザ登録する
 {% endblock %}
+
 {% block itemsbeforehome %}
 <form method="post" action="{% url 'user:signup' %}">
     {% csrf_token %}
     <div class="formItems">
-        <p>{{ form.username.label_tag }}</p>
-        <p>{{ form.username }}</p>
-
-        <p>{{ form.email.label_tag }}</p>
-        <p>{{ form.email }}</p>
-
-        <p>{{ form.password1.label_tag }}</p>
-        <p>{{ form.password1 }}</p>
-
-        <p>{{ form.password2.label_tag }}</p>
-        <p>{{ form.password2 }}</p>
+        {{ form.as_p }}
         <input type="submit" value="登録する" class="registerButton" />
     </div>
 </form>
