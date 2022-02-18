@@ -41,7 +41,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(_("username"), max_length=24, validators=[username_validator], blank=FALSE)
     email = models.EmailField(_("email"), unique=True)
     is_active = models.BooleanField(_("active"), default=True)
-    birthday = models.DateField
+    birthday = models.DateField()
 
     objects = UserManager() #use objects to get the User information from views.py and the like.
     USERNAME_FIELD = "email"
