@@ -1,5 +1,6 @@
 
 from dataclasses import fields
+import email
 from pyexpat import model
 from django.http import HttpResponseRedirect
 from django.contrib.auth import login, authenticate
@@ -8,8 +9,6 @@ from django.views.generic import TemplateView
 from django.urls import reverse_lazy
 from user.models import User
 from .forms import SignUpForm
-
-
 class BaseView(TemplateView):
     template_name = 'user/top.html'
 
@@ -25,8 +24,12 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         username = form.cleaned_data.get('username')
+        email = form.cleaned_data.get('email')
+        birthday = form.cleaned_data.get('birthday')
         password = form.cleaned_data.get('password')
 
+        user = User.objects._create_user(username, email, password)
+        user = form.save()
         user = authenticate(username=username, password=password)
         login(self.request, user)
         self.object = user
