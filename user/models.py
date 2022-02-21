@@ -39,11 +39,26 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     username_validator = UnicodeUsernameValidator()
-    username = models.CharField(_("username"), max_length=24, validators=[username_validator], blank=FALSE)
-    email = models.EmailField(_("email"), unique=True)
+    username = models.CharField(
+        _("username"),
+        max_length=24, 
+        validators=[username_validator], 
+        blank=FALSE,
+        )
+
+    email = models.EmailField(
+        _("email"),
+        unique=True,
+        blank=False,
+        )
+
+    birthday = models.DateField(
+        null=True,
+        blank=True,
+        )
+
     is_active = models.BooleanField(_("active"), default=True)
     is_staff = models.BooleanField(_("is_staff"), default=False)
-    birthday = models.DateField(null=True, blank=True)
 
     objects = UserManager() #use objects to get the User information from views.py and the like.
     USERNAME_FIELD = "email"
