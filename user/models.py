@@ -44,17 +44,15 @@ class User(AbstractBaseUser, PermissionsMixin):
         max_length=24, 
         validators=[username_validator], 
         blank=FALSE,
-        error_messages =  { "blank": "このフィールドの入力は必須です"}
+        error_messages =  { "blank": "このフィールドの入力は必須です" }
         )
 
     email = models.EmailField(
         _("email"),
         unique=True,
         blank=False,
-        error_messages =  { 
-            "blank": "このフィールドの入力は必須です"
-            "unique": "あなたが入力したメールアドレスは既に使用されています。"
-        }
+        error_messages =  { "blank": "このフィールドの入力は必須です",
+                            "unique": "あなたが入力したメールアドレスは既に使用されています。" }   
         )
 
     birthday = models.DateField(
