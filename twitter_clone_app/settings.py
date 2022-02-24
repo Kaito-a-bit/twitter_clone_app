@@ -89,7 +89,7 @@ AUTH_USER_MODEL = 'user.User'
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # designates directory to store backup files.
-DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, 'backups')}
+DBBACKUP_STORAGE_OPTIONS = {'location': BASE_DIR / 'backups'}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
