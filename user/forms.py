@@ -1,7 +1,7 @@
+from django.contrib.auth.forms import UserCreationForm
 from cProfile import label
 from django import forms
 from .models import User
-from django.contrib.auth.forms import UserCreationForm
 
 class SignUpForm(forms.ModelForm):
     class Meta:
