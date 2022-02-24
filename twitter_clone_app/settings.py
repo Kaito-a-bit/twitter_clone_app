@@ -85,9 +85,10 @@ DATABASES = {
 
 AUTH_USER_MODEL = 'user.User'
 
-# 追加
+# use filesystem storage to backup. had to add lines below to add dbbackup to this project. 
 DBBACKUP_STORAGE = 'django.core.files.storage.FileSystemStorage'
-# BASE_DIR/backups/にバックアップファイルを保存する設定
+
+# designates directory to store backup files.
 DBBACKUP_STORAGE_OPTIONS = {'location': os.path.join(BASE_DIR, 'backups')}
 
 # Password validation
