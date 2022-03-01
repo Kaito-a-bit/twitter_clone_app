@@ -26,11 +26,7 @@ class SignUpView(CreateView):
         response = super().form_valid(form) #ここでフォームの情報を保存
         username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
-        birthday = form.cleaned_data.get('birthday')
-        password = form.cleaned_data.get('password')
-
-        user = authenticate(username=username, password=password)
-        self.object = user #これは何
+        user = authenticate(username=email)
         login(self.request, self.object)
         return response
 

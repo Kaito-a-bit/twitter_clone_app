@@ -3,10 +3,12 @@ from cProfile import label
 from django import forms
 from .models import User
 
-class SignUpForm(forms.ModelForm):
+class SignUpForm(UserCreationForm):
+    birthday = forms.DateField()
     class Meta:
         model = User
-        fields = ('username', 'email', 'birthday', 'password')
+        fields = ('username', 'email', 'birthday', 'password1')
+
         labels = {
             'username': 'ユーザネーム',
             'email': 'email',            
