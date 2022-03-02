@@ -1,8 +1,4 @@
-from curses.ascii import NUL
-from email.policy import default
-from operator import truediv
-from pickle import FALSE
-from pyexpat import model
+
 from django.db import models
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager

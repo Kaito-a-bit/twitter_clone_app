@@ -1,14 +1,11 @@
 
-from dataclasses import fields
-import email
-from pyexpat import model
-from django.http import HttpResponseRedirect
 from django.contrib.auth import login, authenticate
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
 from user.models import User
 from .forms import SignUpForm
+
 class BaseView(TemplateView):
     template_name = 'user/top.html'
 
@@ -24,10 +21,9 @@ class SignUpView(CreateView):
 
     def form_valid(self, form):
         response = super().form_valid(form) #ここでフォームの情報を保存
-        username = form.cleaned_data.get('username')
         email = form.cleaned_data.get('email')
         user = authenticate(username=email)
-        login(self.request, self.object)
+        login(self.request, user)
         return response
 
 

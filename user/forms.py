@@ -7,7 +7,7 @@ class SignUpForm(UserCreationForm):
     birthday = forms.DateField()
     class Meta:
         model = User
-        fields = ('username', 'email', 'birthday', 'password1')
+        fields = ('username', 'email', 'birthday')
 
         labels = {
             'username': 'ユーザネーム',
