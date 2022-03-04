@@ -1,5 +1,6 @@
 
 from django.contrib.auth import login, authenticate
+from django.http import HttpResponseRedirect
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
@@ -23,7 +24,8 @@ class SignUpView(CreateView):
         response = super().form_valid(form) #ここでフォームの情報を保存
         email = form.cleaned_data.get('email')
         user = authenticate(username=email)
-        login(self.request, user)
-        return response
-
-
+        if user is not None:
+            login(self.request, user)
+            return response
+        else:
+            return HttpResponseRedirect('user/sign_up.html')
