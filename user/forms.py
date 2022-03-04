@@ -4,7 +4,7 @@ from django import forms
 from .models import User
 
 class SignUpForm(UserCreationForm):
-    birthday = forms.DateField()
+   
     class Meta:
         model = User
         fields = ('username', 'email', 'birthday')
