@@ -28,4 +28,4 @@ class SignUpView(CreateView):
             login(self.request, user)
             return response
         else:
-            return HttpResponseRedirect('user/sign_up.html')
+            return form.add_error("ユーザが存在しません。")
