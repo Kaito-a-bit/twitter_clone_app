@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
+from django.http import HttpResponseForbidden
 from user.models import User
 from .forms import SignUpForm
 
@@ -27,4 +28,4 @@ class SignUpView(CreateView):
             login(self.request, user)
             return response
         else:
-            return form.add_error("ユーザが存在しません。")
+            return HttpResponseForbidden()
