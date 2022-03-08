@@ -28,4 +28,5 @@ class SignUpView(CreateView):
             login(self.request, user)
             return response
         else:
+            print("user is none")
             return HttpResponseForbidden()
