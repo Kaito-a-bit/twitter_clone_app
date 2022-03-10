@@ -4,7 +4,6 @@ from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
-from user.models import User
 from .forms import SignUpForm
 
 class BaseView(TemplateView):
@@ -23,10 +22,13 @@ class SignUpView(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form) #ここでフォームの情報を保存
         email = form.cleaned_data.get('email')
-        user = authenticate(username=email)
+        password = form.cleaned_data.get('passsword1')
+        user = authenticate(username=email, password=password)
         if user is not None:
             login(self.request, user)
             return response
         else:
             print("user is none")
+            print(password)
+            print(email)
             return HttpResponseForbidden()

@@ -8,14 +8,13 @@ from django.utils.translation import gettext_lazy as _
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
-    def _create_user(self, username, email, password, **extra_fields): #what is it for?
+    def _create_user(self, username, email, password, **extra_fields): 
         if not email:
           raise ValueError('ユーザ登録にはEmailアドレスの設定が必要になります')
         email = self.normalize_email(email)
-        username = self.model.normalize_username(username)
         user = self.model(username=username, email=email, **extra_fields)
-        user.set_password(password)
-        user.save(using=self.db)
+        user.set_password(password) 
+        user.save(using=self.db) 
         return user 
 
     def create_user(self, username, email, password=None, **extra_fields):
