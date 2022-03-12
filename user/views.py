@@ -22,7 +22,7 @@ class SignUpView(CreateView):
     def form_valid(self, form):
         response = super().form_valid(form) #ここでフォームの情報を保存
         email = form.cleaned_data.get('email')
-        password = form.cleaned_data.get('passsword1')
+        password = form.cleaned_data.get('password1')
         user = authenticate(username=email, password=password)
         if user is not None:
             login(self.request, user)

@@ -44,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(
         _("email"),
-        unique=True,
+        unique=True, #これ必須
         error_messages =  { "blank": "このフィールドの入力は必須です",
                             "unique": "あなたが入力したメールアドレスは既に使用されています。" }   
         )
