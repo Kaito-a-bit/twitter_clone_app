@@ -15,6 +15,13 @@ class SignUpViewTests(TestCase):
     self.response = self.client.get('/signup/')
     self.assertEqual(self.response.status_code, 200)
 
+
+class HomeViewTests(TestCase):
+    def testStatus(self):
+      self.response = self.client.get('/home/')
+      self.assertEqual(self.response.status_code, 200)
+    
+
 class RegisterErrorTests(TestCase):
   def has_too_short_password(self):
     """
@@ -24,18 +31,8 @@ class RegisterErrorTests(TestCase):
       'username': 'peter',
       'email': 'peter0303@gmail.com',
       'birthday': '199-1-1', 
-      'password': '0sv6d'})
+      'password1': '0sv6d'})
     self.assertEqual(self.response.status_code, 200)
   
-      
-  # def has_too_long_username(self):
-  #   """
-  #   reject username longer than 24 charactors.
-  #   """
-  
-  # def has_wrong_email(self):
-  #   """
-  #   reject email in the incorrect format.
-  #   """
-  
+
     
