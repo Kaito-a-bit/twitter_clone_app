@@ -24,7 +24,7 @@ class HomeViewTests(TestCase):
     
 
 class RegisterErrorTests(TestCase):
-  def test_has_too_short_password(self):
+  def test_too_short_password(self):
     """
     rejects too short password. 
     """
@@ -37,7 +37,7 @@ class RegisterErrorTests(TestCase):
     self.response = self.client.post(reverse('user:signup'), data)
     self.assertEqual(self.response.status_code, 200)
 
-  def test_has_too_long_username(self):
+  def test_too_long_username(self):
     """
     rejects username longer than 24 charactors
     """
@@ -50,5 +50,17 @@ class RegisterErrorTests(TestCase):
     self.response = self.client.post(reverse('user:signup'), data)
     self.assertEqual(self.response.status_code, 200)
 
+  def test_too_old_birthday(self):
+    """
+    rejects user with too old birthday.
+    """
+    data = {
+      'username': 'erick',
+      'email': 'peter@gmail.com',
+      'birthday': '1777-1-1',
+      'password': '0sv6d23678'
+    }
+    self.response = self.client.post(reverse('user:signup'), data)
+    self.assertEqual(self.response.status_code, 200)
 
     
