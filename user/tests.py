@@ -1,4 +1,5 @@
 
+from urllib import response
 from django.test import TestCase, Client
 from django.urls import reverse
 from django.utils import timezone
@@ -17,22 +18,37 @@ class SignUpViewTests(TestCase):
 
 
 class HomeViewTests(TestCase):
-    def testStatus(self):
-      self.response = self.client.get('/home/')
-      self.assertEqual(self.response.status_code, 200)
+  def testStatus(self):
+    self.response = self.client.get('/home/')
+    self.assertEqual(self.response.status_code, 200)
     
 
 class RegisterErrorTests(TestCase):
-  def has_too_short_password(self):
+  def test_has_too_short_password(self):
     """
-    reject password shorter than 8 charactors.
+    rejects too short password. 
     """
-    self.response = self.client.post('/signup/', {
+    data = {
       'username': 'peter',
-      'email': 'peter0303@gmail.com',
-      'birthday': '199-1-1', 
-      'password1': '0sv6d'})
+      'email': 'peter@gmail.com',
+      'birthday': '1999-1-1',
+      'password': '0sv6d'
+    }
+    self.response = self.client.post(reverse('user:signup'), data)
     self.assertEqual(self.response.status_code, 200)
-  
+
+  def test_has_too_long_username(self):
+    """
+    rejects username longer than 24 charactors
+    """
+    data = {
+      'username': 'peter01234567890abcdefghijk',
+      'email': 'peter@gmail.com',
+      'birthday': '1999-1-1',
+      'password': '0sv6d23678'
+    }
+    self.response = self.client.post(reverse('user:signup'), data)
+    self.assertEqual(self.response.status_code, 200)
+
 
     
