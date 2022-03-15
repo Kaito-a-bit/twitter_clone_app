@@ -63,4 +63,27 @@ class RegisterErrorTests(TestCase):
     self.response = self.client.post(reverse('user:signup'), data)
     self.assertEqual(self.response.status_code, 200)
 
+  def test_not_unique_email(self):
+    """
+    rejects email which is not enique.
+    """
+    data = {
+      'username': 'erick',
+      'email': 'peter123@gmail.com',
+      'birthday': '1777-1-1',
+      'password': '0sv6d236781334'
+    }
+    self.response = self.client.post('/signup/', data)
+    user = User.objects.filter(email='peter123@gmail.com')
+    self.assertFalse(user.exists())
     
+  def test_wrong_email(self):  
+    data = {
+      'username': 'erick',
+      'email': 'peter123@',
+      'birthday': '1999-1-1',
+      'password': '0sv6d23643334'
+    }
+    self.response = self.client.post('/signup/', data)
+    self.assertEqual(self.response.status_code, 200)
+
