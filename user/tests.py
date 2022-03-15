@@ -18,14 +18,14 @@ class SignUpViewTests(TestCase):
 
   def test_redirect_to_home(self):
     data = {
-      'username': 'Gym Motivation',
-      'email': 'karenMotive@gmail.com',
+      'username': 'Gym Motivation3',
+      'email': 'nanaMotive@gmail.com',
       'birthday': '2002-1-1',
-      'password1': 'djdksjk824564',
-      'password2': 'djdksjk824564',
+      'password1': 'kjhd1245',
+      'password2': 'kjhd1245',
     }
-    self.response = self.client.post(reverse('user:signup'), data)
-    self.assertRedirects(self.response, reverse('user:home'), status_code=302, target_status_code=200, msg_prefix='', fetch_redirect_response=True)
+    self.response = self.client.post('/signup/', data)
+    self.assertRedirects(self.response, '/home/', status_code=302, target_status_code=200, msg_prefix='', fetch_redirect_response=True)
 
 class HomeViewTests(TestCase):
   def testStatus(self):
