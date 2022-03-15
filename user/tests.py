@@ -18,10 +18,11 @@ class SignUpViewTests(TestCase):
 
   def test_redirect_to_home(self):
     data = {
-      'username': 'YouCome',
-      'email': 'kaikai@gmail.com',
-      'birthday': '2000-1-1',
-      'password1': 'djdksjk8234'
+      'username': 'Gym Motivation',
+      'email': 'karenMotive@gmail.com',
+      'birthday': '2002-1-1',
+      'password1': 'djdksjk824564',
+      'password2': 'djdksjk824564',
     }
     self.response = self.client.post(reverse('user:signup'), data)
     self.assertRedirects(self.response, reverse('user:home'), status_code=302, target_status_code=200, msg_prefix='', fetch_redirect_response=True)
@@ -41,7 +42,8 @@ class RegisterErrorTests(TestCase):
       'username': 'peter',
       'email': 'peter@gmail.com',
       'birthday': '1999-1-1',
-      'password1': '0sv6d'
+      'password1': '0sv6d',
+      'password2': '0sv6d',
     }
     self.response = self.client.post(reverse('user:signup'), data)
     self.assertEqual(self.response.status_code, 200)
@@ -54,20 +56,8 @@ class RegisterErrorTests(TestCase):
       'username': 'peter01234567890abcdefghijk',
       'email': 'peter@gmail.com',
       'birthday': '1999-1-1',
-      'password1': '0sv6d23678'
-    }
-    self.response = self.client.post(reverse('user:signup'), data)
-    self.assertEqual(self.response.status_code, 200)
-
-  def test_too_old_birthday(self):
-    """
-    rejects user with too old birthday.
-    """
-    data = {
-      'username': 'erick',
-      'email': 'peter@gmail.com',
-      'birthday': '1777-1-1',
-      'password1': '0sv6d23678'
+      'password1': '0sv6d23678',
+      'password2': '0sv6d23678',
     }
     self.response = self.client.post(reverse('user:signup'), data)
     self.assertEqual(self.response.status_code, 200)
@@ -80,7 +70,8 @@ class RegisterErrorTests(TestCase):
       'username': 'erick',
       'email': 'peter123@gmail.com',
       'birthday': '1777-1-1',
-      'password1': '0sv6d236781334'
+      'password1': '0sv6d236781334',
+      'password2': '0sv6d236781334',
     }
     self.response = self.client.post('/signup/', data)
     user = User.objects.filter(email='peter123@gmail.com')
@@ -91,7 +82,8 @@ class RegisterErrorTests(TestCase):
       'username': 'erick',
       'email': 'peter123@',
       'birthday': '1999-1-1',
-      'password1': '0sv6d23643334'
+      'password1': '0sv6d23643334',
+      'password2': '0sv6d23643334',
     }
     self.response = self.client.post('/signup/', data)
     self.assertEqual(self.response.status_code, 200)
