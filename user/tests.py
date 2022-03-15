@@ -68,14 +68,14 @@ class RegisterErrorTests(TestCase):
     """
     data = {
       'username': 'erick',
-      'email': 'peter123@gmail.com',
+      'email': 'peter1233445@gmail.com',
       'birthday': '1777-1-1',
       'password1': '0sv6d236781334',
       'password2': '0sv6d236781334',
     }
     self.response = self.client.post('/signup/', data)
-    user = User.objects.filter(email='peter123@gmail.com')
-    self.assertFalse(user.exists())
+    user = User.objects.filter(email='peter1233445@gmail.com')
+    self.assertEqual(user.count(), 1)
     
   def test_wrong_email(self):  
     data = {
