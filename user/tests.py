@@ -18,7 +18,7 @@ class SignUpViewTests(TestCase):
 
   def test_redirect_to_home(self):
     data = {
-      'username': 'Gym Motivation3',
+      'username': 'GymMotivation3',
       'email': 'nanaMotive@gmail.com',
       'birthday': '2002-1-1',
       'password1': 'kjhd1245',
