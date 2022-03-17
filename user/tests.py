@@ -1,17 +1,16 @@
 from django.test import TestCase
 from django.urls import reverse
-from django.utils import timezone
 from .models import User
 
 class TopViewTests(TestCase):
     def test_status(self):
-        self.response = self.client.get('/')
+        self.response = self.client.get(reverse('user:top'))
         self.assertEqual(self.response.status_code, 200)
 
 
 class SignUpViewTests(TestCase):
     def test_status(self):
-        self.response = self.client.get('/signup/')
+        self.response = self.client.get(reverse('user:signup'))
         self.assertEqual(self.response.status_code, 200)
 
     def test_redirect_to_home(self):
@@ -22,12 +21,12 @@ class SignUpViewTests(TestCase):
           'password1': 'kjhd1245',
           'password2': 'kjhd1245',
         }
-        self.response = self.client.post('/signup/', data)
+        self.response = self.client.post(reverse('user:signup'), data)
         self.assertRedirects(self.response, '/home/')
 
 class HomeViewTests(TestCase):
     def test_status(self):
-        self.response = self.client.get('/home/')
+        self.response = self.client.get(reverse('user:home'))
         self.assertEqual(self.response.status_code, 200)
     
 
@@ -75,7 +74,7 @@ class SignUpViewErrorTests(TestCase):
           'password1': '0sv6d236781334',
           'password2': '0sv6d236781334',
         }
-        self.response = self.client.post('/signup/', data)
+        self.response = self.client.post(reverse('user:signup'), data)
         user = User.objects.filter(email='peter1233445@gmail.com')
         self.assertEqual(user.count(), 1)
         
@@ -87,7 +86,7 @@ class SignUpViewErrorTests(TestCase):
           'password1': '0sv6d23643334',
           'password2': '0sv6d23643334',
         }
-        self.response = self.client.post('/signup/', data)
+        self.response = self.client.post(reverse('user:signup'), data)
         user = User.objects.filter(email='peter123@')
         self.assertEqual(user.count(), 0)
         self.assertEqual(self.response.status_code, 200)
