@@ -25,7 +25,7 @@ class SignUpViewTests(TestCase):
           'password2': 'kjhd1245',
         }
         self.response = self.client.post('/signup/', data)
-        self.assertRedirects(self.response, '/home/', status_code=302, target_status_code=200, msg_prefix='', fetch_redirect_response=True)
+        self.assertRedirects(self.response, '/home/')
 
 class HomeViewTests(TestCase):
     def testStatus(self):
