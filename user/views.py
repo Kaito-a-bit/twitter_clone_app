@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
 from .forms import SignUpForm
 
-class BaseView(TemplateView):
+class TopView(TemplateView):
     template_name = 'user/top.html'
 
 
