@@ -6,13 +6,13 @@ from django.utils import timezone
 from .models import User
 
 class TopViewTests(TestCase):
-    def testStatus(self):
+    def test_status(self):
         self.response = self.client.get('/')
         self.assertEqual(self.response.status_code, 200)
 
 
 class SignUpViewTests(TestCase):
-    def testStatus(self):
+    def test_status(self):
         self.response = self.client.get('/signup/')
         self.assertEqual(self.response.status_code, 200)
 
@@ -28,7 +28,7 @@ class SignUpViewTests(TestCase):
         self.assertRedirects(self.response, '/home/')
 
 class HomeViewTests(TestCase):
-    def testStatus(self):
+    def test_status(self):
         self.response = self.client.get('/home/')
         self.assertEqual(self.response.status_code, 200)
     
