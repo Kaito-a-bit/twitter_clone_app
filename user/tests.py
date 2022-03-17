@@ -33,7 +33,7 @@ class HomeViewTests(TestCase):
         self.assertEqual(self.response.status_code, 200)
     
 
-class RegisterErrorTests(TestCase):
+class SignUpViewErrorTests(TestCase):
     def test_too_short_password(self):
         """
         rejects too short password. 
@@ -46,6 +46,8 @@ class RegisterErrorTests(TestCase):
           'password2': '0sv6d',
         }
         self.response = self.client.post(reverse('user:signup'), data)
+        user = User.objects.filter(password='0sv6d')
+        self.assertEqual(user.count(), 0)
         self.assertEqual(self.response.status_code, 200)
 
     def test_too_long_username(self):
@@ -60,6 +62,8 @@ class RegisterErrorTests(TestCase):
           'password2': '0sv6d23678',
         }
         self.response = self.client.post(reverse('user:signup'), data)
+        user = User.objects.filter(username='peter01234567890abcdefghijk')
+        self.assertEqual(user.count(), 0)
         self.assertEqual(self.response.status_code, 200)
 
     def test_user_creation(self):
@@ -86,5 +90,7 @@ class RegisterErrorTests(TestCase):
           'password2': '0sv6d23643334',
         }
         self.response = self.client.post('/signup/', data)
+        user = User.objects.filter(email='peter123@')
+        self.assertEqual(user.count(), 0)
         self.assertEqual(self.response.status_code, 200)
 
