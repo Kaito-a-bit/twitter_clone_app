@@ -3,13 +3,13 @@ from django.urls import reverse
 from .models import User
 
 class TopViewTests(TestCase):
-    def test_status(self):
+    def test_get_success(self):
         self.response = self.client.get(reverse('user:top'))
         self.assertEqual(self.response.status_code, 200)
 
 
 class SignUpViewTests(TestCase):
-    def test_status(self):
+    def test_get_success(self):
         self.response = self.client.get(reverse('user:signup'))
         self.assertEqual(self.response.status_code, 200)
 
@@ -25,7 +25,7 @@ class SignUpViewTests(TestCase):
         self.assertRedirects(self.response, '/home/')
 
 class HomeViewTests(TestCase):
-    def test_status(self):
+    def test_get_success(self):
         self.response = self.client.get(reverse('user:home'))
         self.assertEqual(self.response.status_code, 200)
     
