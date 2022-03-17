@@ -62,7 +62,7 @@ class RegisterErrorTests(TestCase):
         self.response = self.client.post(reverse('user:signup'), data)
         self.assertEqual(self.response.status_code, 200)
 
-    def test_not_unique_email(self):
+    def test_user_creation(self):
         """
         rejects email which is not enique.
         """
