@@ -4,4 +4,6 @@
 
 {% block itemsbeforehome %}
 {{ user.username }}さんようこそ。
+
+<a href="{% url 'logout' %}">ログアウトする</a>
 {% endblock %}
