@@ -1,3 +1,4 @@
+
 from django.test import TestCase
 from django.urls import reverse
 from .models import User
@@ -91,3 +92,11 @@ class SignUpViewErrorTests(TestCase):
         self.assertEqual(user.count(), 0)
         self.assertEqual(self.response.status_code, 200)
 
+class LogInErrorTests(TestCase):
+    def test_wrong_credentials(self):
+        self.response = self.client.login(email='kait', username='skjdsd')
+        self.assertEqual(self.response, False)
+
+    def test_empty_credentials(self):
+        self.response = self.client.login(email='', username='')
+        self.assertEqual(self.response, False)
