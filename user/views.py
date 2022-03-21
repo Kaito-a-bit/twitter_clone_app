@@ -1,5 +1,6 @@
 
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 from django.urls import reverse_lazy
@@ -10,8 +11,9 @@ class TopView(TemplateView):
     template_name = 'user/top.html'
 
 
-class HomeView(TemplateView):
+class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'user/home.html'
+    login_url = 'login'
     
 
 class SignUpView(CreateView):
