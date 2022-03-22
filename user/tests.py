@@ -129,10 +129,10 @@ class LogInErrorTests(TestCase):
 
 
 class LogOutTests(TestCase):
-  def setUp(self):
-      self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
-    
-  def test_get_success(self):
-      self.response = self.client.get(reverse('logout'))
-      self.assertRedirects(self.response, '/')
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+        
+    def test_get_success(self):
+        self.response = self.client.get(reverse('logout'))
+         self.assertRedirects(self.response, '/')
 
