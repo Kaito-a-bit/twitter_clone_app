@@ -106,8 +106,12 @@ class LogInTests(TestCase):
         self.response = self.client.get(reverse('login'))
         self.assertEqual(self.response.status_code, 200)
     
-
-
+    def test_post_success(self):
+        self.response = self.client.post('/accounts/login/', {
+            'username': 'mouse@gmail.com',
+            'password': 'moumou0123',
+        })
+        self.assertRedirects(self.response, '/home/')
 
 class LogInErrorTests(TestCase):
     def setUp(self):
