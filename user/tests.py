@@ -92,6 +92,12 @@ class SignUpViewErrorTests(TestCase):
         self.assertEqual(user.count(), 0)
         self.assertEqual(self.response.status_code, 200)
 
+
+class LogInTests(TestCase):
+    def test_get_success(self):
+        self.response = self.client.get('/accounts/login')
+        self.assertEqual(self.response.status_code, 301)
+
 class LogInErrorTests(TestCase):
     def test_wrong_credentials(self):
         self.response = self.client.login(email='kait', username='skjdsd')
@@ -100,3 +106,4 @@ class LogInErrorTests(TestCase):
     def test_empty_credentials(self):
         self.response = self.client.login(email='', username='')
         self.assertEqual(self.response, False)
+
