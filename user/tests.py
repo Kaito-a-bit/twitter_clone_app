@@ -25,11 +25,6 @@ class SignUpViewTests(TestCase):
         self.response = self.client.post(reverse('user:signup'), data)
         self.assertRedirects(self.response, '/home/')
 
-class HomeViewTests(TestCase):
-    def test_get_success(self):
-        self.response = self.client.get(reverse('user:home'))
-        self.assertEqual(self.response.status_code, 200)
-    
 
 class SignUpViewErrorTests(TestCase):
     def test_too_short_password(self):
@@ -113,8 +108,9 @@ class LogInTests(TestCase):
         self.assertRedirects(self.response, '/accounts/login/?next=/home/')
 
     def test_get_home_success(self):
-        self.client.login(email='mouse@gmail.com', password='moumou0123')
-        self.response = self.client.get('/home/')
+        client = self.client
+        client.login(email='mouse@gmail.com', password='moumou0123')
+        self.response = client.get('/home/')
         self.assertEqual(self.response.status_code, 200)
 
 class LogInErrorTests(TestCase):
