@@ -1,5 +1,4 @@
 
-import email
 from django.test import TestCase
 from django.urls import reverse
 from .models import User
@@ -108,16 +107,16 @@ class SignUpViewErrorTests(TestCase):
 #         self.assertRedirects(self.response, '/home/')
 
 
-# class LogInTests(TestCase):
-#     def test_get_home_failure(self):
-#         self.client.login(email='mouse@gmail.com', password='moumou0123')
-#         self.response = self.client.get('/home/')
-#         self.assertEqual(self.response.status_code, 302)
+class LogInTests(TestCase):
+    def test_get_home_failure(self):
+        self.client.login(email='mouse@gmail.com', password='moumou0123')
+        self.response = self.client.get('/home/')
+        self.assertEqual(self.response.status_code, 302)
 
-#     def test_get_home_success(self):
-#         self.client.login(email='mouse@gmail.com', password='moumou0123')
-#         self.response = self.client.get('/home/')
-#         self.assertEqual(self.response.status_code, 200)
+    def test_get_home_success(self):
+        self.client.login(email='mouse@gmail.com', password='moumou0123')
+        self.response = self.client.get('/home/')
+        self.assertEqual(self.response.status_code, 200)
 
 class LogInErrorTests(TestCase):
     def test_wrong_credentials(self):
