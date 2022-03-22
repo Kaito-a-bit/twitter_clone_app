@@ -133,7 +133,6 @@ class LogOutTests(TestCase):
       self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
     
   def test_get_success(self):
-      self.client.logout()
-      self.response = self.client.get('/accounts/logout/')
-      self.assertRedirects(self.response,  '/')
+      self.response = self.client.get(reverse('logout'))
+      self.assertRedirects(self.response, '/')
 
