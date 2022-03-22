@@ -88,20 +88,6 @@ class SignUpViewErrorTests(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
 
-# class LogInTests(TestCase):
-#     def test_get_success(self):
-#         self.response = self.client.get('/accounts/login')
-#         self.assertEqual(self.response.status_code, 301)
-
-#     def test_redirect_to_logged_in(self):
-#         data = {
-#           'email': 'mouse@gmail.com',
-#           'password1': 'moumou0123'
-#         }
-#         self.response = self.client.post('/accounts/login', data)
-#         self.assertRedirects(self.response, '/home/')
-
-
 class LogInTests(TestCase):
     def setUp(self):
         self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
@@ -115,6 +101,7 @@ class LogInTests(TestCase):
         self.response = self.client.get('/home/')
         self.assertEqual(self.response.status_code, 200)
 
+
 class LogInErrorTests(TestCase):
     def setUp(self):
         self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
@@ -127,4 +114,13 @@ class LogInErrorTests(TestCase):
         self.response = self.client.login(email='', password='')
         self.assertEqual(self.response, False)
 
+
+class LogOutTests(TestCase):
+  def setUp(self):
+      self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
+    
+  def test_get_success(self):
+      self.client.logout()
+      self.response = self.client.get('/accounts/logout/')
+      self.assertRedirects(self.response,  '/')
 
