@@ -134,5 +134,5 @@ class LogOutTests(TestCase):
         
     def test_get_success(self):
         self.response = self.client.get(reverse('logout'))
-         self.assertRedirects(self.response, '/')
+        self.assertRedirects(self.response, '/')
 
