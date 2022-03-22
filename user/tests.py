@@ -108,10 +108,9 @@ class SignUpViewErrorTests(TestCase):
 
 
 class LogInTests(TestCase):
-    def test_get_home_failure(self):
-        self.client.login(email='mouse@gmail.com', password='moumou0123')
+    def test_get_home_redirect_to_signup(self):
         self.response = self.client.get('/home/')
-        self.assertEqual(self.response.status_code, 302)
+        self.assertRedirects(self.response, '/accounts/login/?next=/home/')
 
     def test_get_home_success(self):
         self.client.login(email='mouse@gmail.com', password='moumou0123')
