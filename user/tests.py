@@ -1,4 +1,5 @@
 
+import email
 from django.test import TestCase
 from django.urls import reverse
 from .models import User
@@ -93,17 +94,38 @@ class SignUpViewErrorTests(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
 
-class LogInTests(TestCase):
-    def test_get_success(self):
-        self.response = self.client.get('/accounts/login')
-        self.assertEqual(self.response.status_code, 301)
+# class LogInTests(TestCase):
+#     def test_get_success(self):
+#         self.response = self.client.get('/accounts/login')
+#         self.assertEqual(self.response.status_code, 301)
+
+#     def test_redirect_to_logged_in(self):
+#         data = {
+#           'email': 'mouse@gmail.com',
+#           'password1': 'moumou0123'
+#         }
+#         self.response = self.client.post('/accounts/login', data)
+#         self.assertRedirects(self.response, '/home/')
+
+
+# class LogInTests(TestCase):
+#     def test_get_home_failure(self):
+#         self.client.login(email='mouse@gmail.com', password='moumou0123')
+#         self.response = self.client.get('/home/')
+#         self.assertEqual(self.response.status_code, 302)
+
+#     def test_get_home_success(self):
+#         self.client.login(email='mouse@gmail.com', password='moumou0123')
+#         self.response = self.client.get('/home/')
+#         self.assertEqual(self.response.status_code, 200)
 
 class LogInErrorTests(TestCase):
     def test_wrong_credentials(self):
-        self.response = self.client.login(email='kait', username='skjdsd')
+        self.response = self.client.login(email='kait', password='skjdsd')
         self.assertEqual(self.response, False)
 
     def test_empty_credentials(self):
-        self.response = self.client.login(email='', username='')
+        self.response = self.client.login(email='', password='')
         self.assertEqual(self.response, False)
+
 
