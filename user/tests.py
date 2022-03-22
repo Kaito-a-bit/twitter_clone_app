@@ -103,19 +103,24 @@ class SignUpViewErrorTests(TestCase):
 
 
 class LogInTests(TestCase):
+    def setUp(self):
+        self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
+
     def test_get_home_redirect_to_signup(self):
         self.response = self.client.get('/home/')
         self.assertRedirects(self.response, '/accounts/login/?next=/home/')
 
     def test_get_home_success(self):
-        client = self.client
-        client.login(email='mouse@gmail.com', password='moumou0123')
-        self.response = client.get('/home/')
+        self.client.login(email='test@gmail.com', password='ttt019283est')
+        self.response = self.client.get('/home/')
         self.assertEqual(self.response.status_code, 200)
 
 class LogInErrorTests(TestCase):
+    def setUp(self):
+        self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
+
     def test_wrong_credentials(self):
-        self.response = self.client.login(email='kait', password='skjdsd')
+        self.response = self.client.login(email='test11@gmail.com', password='ttt019283est')
         self.assertEqual(self.response, False)
 
     def test_empty_credentials(self):
