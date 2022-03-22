@@ -27,7 +27,7 @@ class SignUpViewTests(TestCase):
 
 class HomeViewTests(TestCase):
     def setUp(self):
-        self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
 
     def test_get_home_redirect_to_signup(self):
         self.response = self.client.get(reverse('user:home'))
@@ -101,18 +101,16 @@ class SignUpViewErrorTests(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
 
-class LogInTests(TestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
-
-    def test_get_home_redirect_to_signup(self):
-        self.response = self.client.get(reverse('user:home'))
-        self.assertRedirects(self.response, '/accounts/login/?next=/home/')
-
-    def test_get_home_success(self):
-        self.client.login(email='test@gmail.com', password='ttt019283est')
-        self.response = self.client.get(reverse('user:home'))
-        self.assertEqual(self.response.status_code, 200)
+# class LogInTests(TestCase):
+#     def test_post_success(self):
+#         data = {
+#             'username': 'mouse@gmail.com',
+#             'password': 'moumou0123',
+#         }
+#         self.response =  self.client.post(reverse('login'), data)
+#         print(reverse('login'))
+#         print(reverse('user:home'))
+#         self.assertRedirects(self.response, reverse('user:home'))
 
 
 class LogInErrorTests(TestCase):
