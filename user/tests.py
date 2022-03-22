@@ -93,12 +93,12 @@ class LogInTests(TestCase):
         self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
 
     def test_get_home_redirect_to_signup(self):
-        self.response = self.client.get('/home/')
+        self.response = self.client.get(reverse('user:home'))
         self.assertRedirects(self.response, '/accounts/login/?next=/home/')
 
     def test_get_home_success(self):
         self.client.login(email='test@gmail.com', password='ttt019283est')
-        self.response = self.client.get('/home/')
+        self.response = self.client.get(reverse('user:home'))
         self.assertEqual(self.response.status_code, 200)
 
 
