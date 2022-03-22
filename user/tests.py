@@ -103,7 +103,7 @@ class SignUpViewErrorTests(TestCase):
 
 class LogInTests(TestCase):
     def setUp(self):
-        self.user = User.objects._create_user('testuser', 'test@gmail.com', 'ttt019283est')
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
 
     def test_get_home_redirect_to_signup(self):
         self.response = self.client.get(reverse('user:home'))
