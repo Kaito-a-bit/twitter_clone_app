@@ -102,14 +102,17 @@ class SignUpViewErrorTests(TestCase):
 
 
 class LogInTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+
     def test_get_success(self):
         self.response = self.client.get(reverse('login'))
         self.assertEqual(self.response.status_code, 200)
     
     def test_post_success(self):
         self.response = self.client.post('/accounts/login/', {
-            'username': 'mouse@gmail.com',
-            'password': 'moumou0123',
+            'username': 'test@gmail.com',
+            'password': 'ttt019283est',
         })
         self.assertRedirects(self.response, '/home/')
 
@@ -130,4 +133,3 @@ class LogOutTests(TestCase):
     def test_get_success(self):
         self.response = self.client.get(reverse('logout'))
         self.assertRedirects(self.response, '/')
-
