@@ -110,7 +110,7 @@ class LogInTests(TestCase):
         self.assertEqual(self.response.status_code, 200)
     
     def test_post_success(self):
-        self.response = self.client.post('/accounts/login/', {
+        self.response = self.client.post(reverse('login'), {
             'username': 'test@gmail.com',
             'password': 'ttt019283est',
         })
