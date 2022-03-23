@@ -1,3 +1,4 @@
+
 from django.test import TestCase
 from django.urls import reverse
 from .models import User
@@ -25,10 +26,18 @@ class SignUpViewTests(TestCase):
         self.assertRedirects(self.response, '/home/')
 
 class HomeViewTests(TestCase):
-    def test_get_success(self):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+
+    def test_get_home_redirect_to_signup(self):
+        self.response = self.client.get(reverse('user:home'))
+        self.assertRedirects(self.response, '/accounts/login/?next=/home/')
+
+    def test_get_home_success(self):
+        self.client.login(email='test@gmail.com', password='ttt019283est')
         self.response = self.client.get(reverse('user:home'))
         self.assertEqual(self.response.status_code, 200)
-    
+
 
 class SignUpViewErrorTests(TestCase):
     def test_too_short_password(self):
@@ -91,3 +100,36 @@ class SignUpViewErrorTests(TestCase):
         self.assertEqual(user.count(), 0)
         self.assertEqual(self.response.status_code, 200)
 
+
+class LogInTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+
+    def test_get_success(self):
+        self.response = self.client.get(reverse('login'))
+        self.assertEqual(self.response.status_code, 200)
+    
+    def test_post_success(self):
+        self.response = self.client.post(reverse('login'), {
+            'username': 'test@gmail.com',
+            'password': 'ttt019283est',
+        })
+        self.assertRedirects(self.response, '/home/')
+
+class LogInErrorTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+
+    def test_wrong_credentials(self):
+        self.response = self.client.login(email='test11@gmail.com', password='ttt019283est')
+        self.assertEqual(self.response, False)
+
+    def test_empty_credentials(self):
+        self.response = self.client.login(email='', password='')
+        self.assertEqual(self.response, False)
+
+
+class LogOutTests(TestCase):
+    def test_get_success(self):
+        self.response = self.client.get(reverse('logout'))
+        self.assertRedirects(self.response, '/')
