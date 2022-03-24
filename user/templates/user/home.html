@@ -11,6 +11,7 @@
 
 {% for tweet in tweet_list %}
 <p>
+    {{ tweet.author_id }}
     {{ tweet.created_at }}
     {{ tweet.text }}
 </p>
