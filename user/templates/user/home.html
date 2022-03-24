@@ -8,4 +8,11 @@
   <a href="{% url 'logout' %}">ログアウトする</a>
   <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
 </header>
+
+{% for tweet in tweet_list %}
+<p>
+    {{ tweet.created_at }}
+    {{ tweet.text }}
+</p>
+{% endfor %}
 {% endblock %}
