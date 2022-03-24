@@ -3,9 +3,9 @@
 {% endblock %}
 
 {% block itemsbeforehome %}
-{{ user.username }}さんようこそ。
-
-<a href="{% url 'logout' %}">ログアウトする</a>
-
-<a href="{% url 'tweet:tweet' %}"> ツイートする</a>
+<header>
+  {{ user.username }}さんようこそ。
+  <a href="{% url 'logout' %}">ログアウトする</a>
+  <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
+</header>
 {% endblock %}
