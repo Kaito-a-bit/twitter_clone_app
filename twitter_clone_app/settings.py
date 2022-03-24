@@ -34,7 +34,7 @@ ALLOWED_HOSTS = ["*"]
 
 INSTALLED_APPS = [
     'user.apps.UserConfig',
-    'tweet.apps.TweetConfig'
+    'tweet.apps.TweetConfig',
     'dbbackup',
     'django.contrib.admin',
     'django.contrib.auth',

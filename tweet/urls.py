@@ -4,5 +4,5 @@ from . import views
 
 app_name = 'tweet'
 urlpatterns = [
-  path('posting/', views.TweetView.as_view(), name = 'tweet')
+  path('', views.TweetView.as_view(), name = 'tweet')
 ]
