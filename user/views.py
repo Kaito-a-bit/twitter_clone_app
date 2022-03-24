@@ -6,7 +6,7 @@ from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
 from .forms import SignUpForm
-from tweet.models import tweet
+from tweet.models import Tweet
 
 class TopView(TemplateView):
     template_name = 'user/top.html'
@@ -15,7 +15,7 @@ class TopView(TemplateView):
 class HomeView(LoginRequiredMixin, ListView):
     template_name = 'user/home.html'
     login_url = 'login'
-    model = tweet
+    model = Tweet
     
 
 class SignUpView(CreateView):

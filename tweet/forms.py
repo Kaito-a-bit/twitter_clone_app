@@ -1,9 +1,9 @@
 
 from dataclasses import fields
 from django import forms
-from .models import tweet
+from .models import Tweet
 
 class TweetForm(forms.ModelForm):
     class Meta:
-        model = tweet
+        model = Tweet
         fields = ('text', 'created_at',)
