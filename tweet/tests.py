@@ -16,7 +16,7 @@ class PostingViewTests(TestCase):
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
         self.assertRedirects(self.response, reverse('user:home'))
-
+    
     def test_post_creation(self):
         data = {
           'text': 'testtext',
@@ -40,3 +40,6 @@ class PostingViewErrorTests(TestCase):
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
         self.assertEqual(self.response.status_code, 200)
+        tweet = Tweet.objects.filter(author='test@gmail.com') 
+        #idk how to query the Tweet using test author's id.
+        self.assertEqual(tweet.count(),0)
