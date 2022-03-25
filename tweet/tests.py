@@ -16,6 +16,10 @@ class PostingViewTests(TestCase):
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
         self.assertRedirects(self.response, reverse('user:home'))
+
+    def test_get_success(self):
+        self.response = self.client.get(reverse('tweet:tweet'))
+        self.assertEqual(self.response.status_code, 200)    
     
     def test_tweet_creation(self):
         data = {
