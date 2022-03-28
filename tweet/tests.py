@@ -5,7 +5,7 @@ from user.models import User
 
 class PostingViewTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password='ttt019283est')
         self.client.login(username="test@gmail.com", password="ttt019283est")
 
     def test_post_success(self):
@@ -30,7 +30,7 @@ class PostingViewTests(TestCase):
 
 class PostingViewErrorTests(TestCase):
     def setUp(self):
-        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password='ttt019283est')
 
     def test_empty_text(self):
         data = {
