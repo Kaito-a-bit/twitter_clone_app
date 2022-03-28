@@ -14,19 +14,13 @@ class PostingViewTests(TestCase):
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
         self.assertRedirects(self.response, reverse('user:home'))
+        tweet = Tweet.objects.filter(text='testtext')
+        self.assertEqual(tweet.count(),1)
 
     def test_get_success(self):
         self.response = self.client.get(reverse('tweet:tweet'))
         self.assertEqual(self.response.status_code, 200)    
     
-    def test_tweet_creation(self):
-        data = {
-          'text': 'testtext',
-        }
-        self.response = self.client.post(reverse('tweet:tweet'), data)
-        tweet = Tweet.objects.filter(text='testtext')
-        self.assertEqual(tweet.count(),1)
-
 
 class PostingViewErrorTests(TestCase):
     def setUp(self):
