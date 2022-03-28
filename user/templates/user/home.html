@@ -3,7 +3,17 @@
 {% endblock %}
 
 {% block itemsbeforehome %}
-{{ user.username }}さんようこそ。
+<header>
+  {{ user.username }}さんようこそ。
+  <a href="{% url 'logout' %}">ログアウトする</a>
+  <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
+</header>
 
-<a href="{% url 'logout' %}">ログアウトする</a>
+{% for tweet in tweet_list %}
+<p>
+    {{ tweet.author.username }}
+    {{ tweet.created_at }}
+    {{ tweet.text }}
+</p>
+{% endfor %}
 {% endblock %}
