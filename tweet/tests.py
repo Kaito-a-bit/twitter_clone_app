@@ -11,8 +11,6 @@ class PostingViewTests(TestCase):
     def test_post_success(self):
         data = {
           'text': 'testtext',
-          'author': self.user,
-          'created_at': '2022-03-25 17:10:39+09:00',
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
         self.assertRedirects(self.response, reverse('user:home'))
@@ -24,8 +22,6 @@ class PostingViewTests(TestCase):
     def test_tweet_creation(self):
         data = {
           'text': 'testtext',
-          'author': self.user,
-          'created_at': '2022-03-25 17:10:39+09:00',
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
         tweet = Tweet.objects.filter(text='testtext')
@@ -39,8 +35,6 @@ class PostingViewErrorTests(TestCase):
     def test_empty_text(self):
         data = {
           'text': '',
-          'author': self.user,
-          'created_at': '2022-03-25 17:10:39+09:00',
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
         self.assertEqual(self.response.status_code, 200)
