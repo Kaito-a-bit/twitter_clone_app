@@ -11,7 +11,7 @@ class PostingViewTests(TestCase):
     def test_post_success(self):
         data = {
           'text': 'testtext',
-          'author': 'test@gmail.com',
+          'author': self.user,
           'created_at': '2022-03-25 17:10:39+09:00',
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
@@ -24,7 +24,7 @@ class PostingViewTests(TestCase):
     def test_tweet_creation(self):
         data = {
           'text': 'testtext',
-          'author': 'test@gmail.com',
+          'author': self.user,
           'created_at': '2022-03-25 17:10:39+09:00',
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
@@ -39,11 +39,10 @@ class PostingViewErrorTests(TestCase):
     def test_empty_text(self):
         data = {
           'text': '',
-          'author': 'test@gmail.com',
+          'author': self.user,
           'created_at': '2022-03-25 17:10:39+09:00',
         }
         self.response = self.client.post(reverse('tweet:tweet'), data)
         self.assertEqual(self.response.status_code, 200)
-        tweet = Tweet.objects.filter(author='test@gmail.com') 
-        #idk how to query the Tweet using test author's id.
+        tweet = Tweet.objects.filter(author=self.user) 
         self.assertEqual(tweet.count(),0)
