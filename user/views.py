@@ -1,4 +1,6 @@
 
+from re import template
+from typing import List
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
@@ -36,3 +38,7 @@ class SignUpView(CreateView):
             print(password)
             print(email)
             return HttpResponseForbidden()
+
+class ProfileView(ListView):
+    template_name = "user/profile.html"
+    model = Tweet

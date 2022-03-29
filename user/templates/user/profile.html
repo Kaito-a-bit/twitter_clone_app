@@ -10,5 +10,14 @@
   <a href="{% url 'home' %}">ホームに戻る</a>
 </header>
 
+{% for tweet in tweet_list %}
+<div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
+  <div class="inline">
+    <a href="">{{ tweet.author.username }}</a>
+    {{ tweet.created_at }}
+  </div>
+  {{ tweet.text }}
+</div>
 
+{% endfor %}
 {% endblock %}
