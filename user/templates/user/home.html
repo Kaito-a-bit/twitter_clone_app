@@ -10,12 +10,13 @@
 </header>
 
 {% for tweet in tweet_list %}
-<p>
+<div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
   <div class="inline">
     {{ tweet.author.username }}
     {{ tweet.created_at }}
   </div>
-    {{ tweet.text }}
-</p>
+  {{ tweet.text }}
+</div>
+
 {% endfor %}
 {% endblock %}
