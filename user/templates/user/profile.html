@@ -4,10 +4,10 @@
 
 {% block itemsbeforehome %}
 <header>
-  {{ user.username }}さんようこそ。
   <a href="{% url 'logout' %}">ログアウトする</a>
   <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
   <a href="{% url 'user:home' %}">ホームに戻る</a>
+  <a href="">このユーザをフォローする</a>
 </header>
 
 {% for tweet in tweet_list %}
