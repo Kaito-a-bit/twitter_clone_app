@@ -4,6 +4,7 @@
 
 {% block itemsbeforehome %}
 <header>
+  {{ user.username }}さんのプロフィールです。
   <a href="{% url 'logout' %}">ログアウトする</a>
   <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
   <a href="{% url 'user:home' %}">ホームに戻る</a>
