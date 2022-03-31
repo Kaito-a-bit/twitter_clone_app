@@ -1,12 +1,11 @@
 
-from re import template
-from typing import List
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
 from django.http import HttpResponseForbidden
+from user.models import User
 from .forms import SignUpForm
 from tweet.models import Tweet
 
@@ -42,3 +41,8 @@ class SignUpView(CreateView):
 class ProfileView(ListView):
     template_name = "user/profile.html"
     model = Tweet
+
+    def get_queryset(self):
+        associated_id = self.kwargs['pk']
+        user = User.objects.get(id=associated_id)
+        return Tweet.objects.filter(author=user)
