@@ -8,7 +8,7 @@
   <a href="{% url 'logout' %}">ログアウトする</a>
   <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
   <a href="{% url 'user:home' %}">ホームに戻る</a>
-  <a href="">このユーザをフォローする</a>
+  <a href="{% url 'user:follow' %}">このユーザをフォローする</a>
 </header>
 
 {% for tweet in tweet_list %}

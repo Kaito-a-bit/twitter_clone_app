@@ -1,11 +1,12 @@
 
+from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy
-from django.http import HttpResponseForbidden
-from user.models import User
+from django.http import HttpResponseForbidden, HttpResponseRedirect
+from user.models import ConnectionModel, User
 from .forms import SignUpForm
 from tweet.models import Tweet
 
@@ -46,3 +47,18 @@ class ProfileView(ListView):
         associated_id = self.kwargs['pk']
         user = User.objects.get(id=associated_id)
         return Tweet.objects.filter(author=user)
+
+def follow_view(request, *args, **kwargs):
+    try:
+        
+        follower = User.objects.get(username=request.user.username)
+        following = User.objects.get()
+    except User.DoesNotExist:
+        messages.warning(request, '{}は存在しません')
+        return HttpResponseRedirect(reverse_lazy('user:profile'))
+
+    if follower == following:
+        messages.warning(request, '自分自身はフォローできません。')
+    else:
+        _, created = ConnectionModel.objects.get_or_create(follower=follower, following=following)
+        return HttpResponseRedirect(reverse_lazy('user:profile'))
