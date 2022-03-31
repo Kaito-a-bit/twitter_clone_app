@@ -1,4 +1,5 @@
 
+from re import template
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -48,9 +49,14 @@ class ProfileView(ListView):
         user = User.objects.get(id=associated_id)
         return Tweet.objects.filter(author=user)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        associated_id = self.kwargs['pk']
+        context["author_id"] = associated_id
+        return context
+
 def follow_view(request, *args, **kwargs):
     try:
-        
         follower = User.objects.get(username=request.user.username)
         following = User.objects.get()
     except User.DoesNotExist:
