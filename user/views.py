@@ -1,4 +1,5 @@
 
+from asyncio import as_completed
 from re import template
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
@@ -52,13 +53,13 @@ class ProfileView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         associated_id = self.kwargs['pk']
-        context["author_id"] = associated_id
+        context["author"] = User.objects.filter(id=associated_id).first()
         return context
 
-def follow_view(request, *args, **kwargs):
+def follow_view(request, pk):
     try:
         follower = User.objects.get(username=request.user.username)
-        following = User.objects.get()
+        following = User.objects.get(id=pk)
     except User.DoesNotExist:
         messages.warning(request, '{}は存在しません')
         return HttpResponseRedirect(reverse_lazy('user:profile'))
