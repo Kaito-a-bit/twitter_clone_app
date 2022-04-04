@@ -77,12 +77,15 @@ def unfollow_view(request, pk):
         follower = User.objects.get(username=request.user.username)
         following = User.objects.get(id=pk)
         if follower == following:
-            messages.warning(request, '自分自身のフォローを外せません')
+            messages.add_message(request, messages.ERROR, "自分自身のフォローを外すことはできません。")
         else:
-            unfollow = ConnectionModel.objects.get(follower=follower, following=following)
-            unfollow.delete()
-            messages.success(request, 'あなたは{}のフォローを外しました'.format(following.username))
+            target = ConnectionModel.objects.filter(follower=follower, following=following)
+            if target.exists():
+                target.delete()
+            else:
+                messages.add_message(request, messages.ERROR, "まだあなたはこのユーザをフォローしていません。")
     except User.DoesNotExist:
-        messages.warning(request, '{}は存在しません')
-    return HttpResponseRedirect(reverse_lazy('user:home'))
+        messages.add_message(request, messages.ERROR, "このユーザは存在しません。")
+    url = reverse_lazy('user:profile', kwargs={'pk': following.pk })
+    return HttpResponseRedirect(url)
 
