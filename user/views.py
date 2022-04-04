@@ -66,7 +66,7 @@ def follow_view(request, pk):
     else:
         _, created = ConnectionModel.objects.get_or_create(follower=follower, following=following)
         if created:
-                messages.add_message(request, messages.SUCCESS, "ユーザをフォローしました")
+            messages.add_message(request, messages.SUCCESS, "ユーザをフォローしました")
         else:
             messages.add_message(request, messages.ERROR, "あなたはすでにこのユーザをフォローしています")
     url = reverse_lazy('user:profile', kwargs={'pk': following.pk })
