@@ -26,4 +26,10 @@
 </div>
 
 {% endfor %}
+
+{% if messages %}
+{% for message in messages %}
+    <li>{{ message.tags }}:{{ message }}</li>
+    {% endfor %}
+{% endif %}
 {% endblock %}
