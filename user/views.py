@@ -68,4 +68,11 @@ def follow_view(request, pk):
         messages.warning(request, '自分自身はフォローできません。')
     else:
         _, created = ConnectionModel.objects.get_or_create(follower=follower, following=following)
-        return HttpResponseRedirect(reverse_lazy('user:profile'))
+
+        if created:
+                messages.success(request, '{}をフォローしました'.format(following.username))
+        else:
+            messages.warning(request, 'あなたはすでに{}をフォローしています'.format(following.username))
+
+    return HttpResponseRedirect(reverse_lazy('user:home'))
+
