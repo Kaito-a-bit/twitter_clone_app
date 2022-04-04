@@ -52,6 +52,7 @@ class ProfileView(ListView):
         context = super().get_context_data(**kwargs)
         associated_id = self.kwargs['pk']
         context["author"] = User.objects.filter(id=associated_id).first()
+        context["requesting_user"] = self.request.user
         return context
 
 def follow_view(request, pk):
