@@ -9,6 +9,7 @@
   <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
   <a href="{% url 'user:home' %}">ホームに戻る</a>
   <a href="{% url 'user:follow' pk=author.id %}">このユーザをフォローする</a>
+  <a href="{% url 'user:unfollow' pk=author.id%}">このユーザのフォローを外す</a>
 </header>
 
 {% for tweet in tweet_list %}
