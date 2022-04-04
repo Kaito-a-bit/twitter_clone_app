@@ -1,6 +1,4 @@
 
-from asyncio import as_completed
-from re import template
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -74,5 +72,19 @@ def follow_view(request, pk):
         else:
             messages.warning(request, 'あなたはすでに{}をフォローしています'.format(following.username))
 
+    return HttpResponseRedirect(reverse_lazy('user:home'))
+
+def unfollow_view(request, pk):
+    try:
+        follower = User.objects.get(username=request.user.username)
+        following = User.objects.get(id=pk)
+        if follower == following:
+            messages.warning(request, '自分自身のフォローを外せません')
+        else:
+            unfollow = ConnectionModel.objects.get(follower=follower, following=following)
+            unfollow.delete()
+            messages.success(request, 'あなたは{}のフォローを外しました'.format(following.username))
+    except User.DoesNotExist:
+        messages.warning(request, '{}は存在しません')
     return HttpResponseRedirect(reverse_lazy('user:home'))
 
