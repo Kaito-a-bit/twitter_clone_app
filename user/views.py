@@ -82,10 +82,10 @@ def unfollow_view(request, pk):
             target = ConnectionModel.objects.filter(follower=follower, following=following)
             if target.exists():
                 target.delete()
+                messages.add_message(request, messages.SUCCESS, "このユーザのフォローを外しました")
             else:
                 messages.add_message(request, messages.ERROR, "まだあなたはこのユーザをフォローしていません。")
     except User.DoesNotExist:
         messages.add_message(request, messages.ERROR, "このユーザは存在しません。")
     url = reverse_lazy('user:profile', kwargs={'pk': following.pk })
     return HttpResponseRedirect(url)
-
