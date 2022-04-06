@@ -1,7 +1,7 @@
 
 from django.test import TestCase
 from django.urls import reverse
-from .models import User
+from .models import User, ConnectionModel
 
 class TopViewTests(TestCase):
     def test_get_success(self):
@@ -149,3 +149,12 @@ class FollowViewTests(TestCase):
     #     url = reverse('user:follow', kwargs={'pk': tester.id})
     #     self.response = self.client.post(url)
     #     self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': self.user.id}))
+
+    def test_connection_creation(self):
+        follower = self.user
+        followee = User.objects.create_user(username='testuseasr', email='test123@gmail.com', password= 'ttt0192xds83est')
+        ConnectionModel.objects.create(follower=follower, following=followee)
+        model = ConnectionModel.objects.filter(follower=follower)
+        self.assertEqual(model.count(), 1)
+        
+
