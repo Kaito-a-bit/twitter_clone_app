@@ -133,3 +133,19 @@ class LogOutTests(TestCase):
     def test_get_success(self):
         self.response = self.client.get(reverse('logout'))
         self.assertRedirects(self.response, '/')
+
+class FollowViewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+        self.client.login(username='testuser', password='ttt019283est')
+
+    def test_get_success(self):
+        url = reverse('user:profile', kwargs={'pk': self.user.id})
+        self.response = self.client.get(url)
+        self.assertEqual(self.response.status_code, 200)
+    
+    # def test_follow(self):
+    #     tester = User.objects.create_user(username='testuser2', email='test2@gmail.com', password= 'ttt019283exaqst')
+    #     url = reverse('user:follow', kwargs={'pk': tester.id})
+    #     self.response = self.client.post(url)
+    #     self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': self.user.id}))
