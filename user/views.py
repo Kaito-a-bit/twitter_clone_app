@@ -68,7 +68,6 @@ def follow_view(request, pk):
             else:
                 messages.add_message(request, messages.ERROR, "あなたはすでにこのユーザをフォローしています")
     except User.DoesNotExist:
-        print('2')
         messages.add_message(request, messages.ERROR, "ユーザが存在しません")
     url = reverse_lazy('user:profile', kwargs={'pk': pk })
     return HttpResponseRedirect(url)

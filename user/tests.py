@@ -1,7 +1,6 @@
 
-from django.test import RequestFactory, TestCase
+from django.test import TestCase
 from django.urls import reverse
-from user.views import follow_view
 from .models import User, ConnectionModel
 
 class TopViewTests(TestCase):
@@ -164,7 +163,7 @@ class UnfollowTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
         self.client.login(username='test@gmail.com', password='ttt019283est')
-        
+
     def test_unfollow_func(self):
         tester = User.objects.create_user(username='testuser2', email='test2@gmail.com', password= 'ttt019283exaqst')
         url = reverse('user:follow', kwargs={'pk': tester.id})
