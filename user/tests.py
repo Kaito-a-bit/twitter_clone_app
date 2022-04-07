@@ -150,9 +150,19 @@ class FollowViewTests(TestCase):
         url = reverse('user:follow', kwargs={'pk': tester.id})
         self.response = self.client.post(url)
         model = ConnectionModel.objects.filter(follower=self.user, following=tester)
-        self.assertEqual(model.count(), 1)
+        self.assertEqual(model.count(),1)
         self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
-        
+
+    def test_unfollow_func(self):
+        tester = User.objects.create_user(username='testuser2', email='test2@gmail.com', password= 'ttt019283exaqst')
+        url = reverse('user:follow', kwargs={'pk': tester.id})
+        self.response = self.client.post(url)
+        model = ConnectionModel.objects.filter(follower=self.user, following=tester)
+        self.assertEqual(model.count(),1)
+        url = reverse('user:unfollow', kwargs={'pk': tester.id})
+        self.response = self.client.post(url)
+        self.assertEqual(model.count(),0)
+        self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
 
     def test_connection_creation(self):
         follower = self.user
