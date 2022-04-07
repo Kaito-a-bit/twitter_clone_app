@@ -59,17 +59,18 @@ def follow_view(request, pk):
     try:
         follower = User.objects.get(username=request.user.username)
         following = User.objects.get(id=pk)
-    except User.DoesNotExist:
-        messages.add_message(request, messages.ERROR, "ユーザが存在しません")
-    if follower == following:
-        messages.add_message(request, messages.ERROR, "自分をフォローすることはできません。")
-    else:
-        _, created = ConnectionModel.objects.get_or_create(follower=follower, following=following)
-        if created:
-            messages.add_message(request, messages.SUCCESS, "ユーザをフォローしました")
+        if follower == following:
+            messages.add_message(request, messages.ERROR, "自分をフォローすることはできません。")
         else:
-            messages.add_message(request, messages.ERROR, "あなたはすでにこのユーザをフォローしています")
-    url = reverse_lazy('user:profile', kwargs={'pk': following.pk })
+            _, created = ConnectionModel.objects.get_or_create(follower=follower, following=following)
+            if created:
+                messages.add_message(request, messages.SUCCESS, "ユーザをフォローしました")
+            else:
+                messages.add_message(request, messages.ERROR, "あなたはすでにこのユーザをフォローしています")
+    except User.DoesNotExist:
+        print('2')
+        messages.add_message(request, messages.ERROR, "ユーザが存在しません")
+    url = reverse_lazy('user:profile', kwargs={'pk': pk })
     return HttpResponseRedirect(url)
     
 def unfollow_view(request, pk):
