@@ -163,7 +163,13 @@ class FollowViewTests(TestCase):
         self.assertEqual(model.count(),1)
         self.response = self.client.post(url)
         self.assertEqual(model.count(),1)
-        
+
+    def test_self_following(self):
+        url = reverse('user:follow', kwargs={'pk': self.user.id})
+        self.response = self.client.post(url)
+        model = ConnectionModel.objects.filter(follower=self.user, following=self.user)
+        self.assertEqual(model.count(),0)
+
 class UnfollowTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
@@ -179,3 +185,4 @@ class UnfollowTests(TestCase):
         self.response = self.client.post(url)
         self.assertEqual(model.count(),0)
         self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
+
