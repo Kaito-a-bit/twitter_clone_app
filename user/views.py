@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, ListView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from user.models import ConnectionModel, User
 from .forms import SignUpForm
@@ -69,7 +69,7 @@ def follow_view(request, pk):
                 messages.add_message(request, messages.ERROR, "あなたはすでにこのユーザをフォローしています")
     except User.DoesNotExist:
         messages.add_message(request, messages.ERROR, "ユーザが存在しません")
-    url = reverse_lazy('user:profile', kwargs={'pk': pk })
+    url = reverse('user:profile', kwargs={'pk': pk })
     return HttpResponseRedirect(url)
     
 def unfollow_view(request, pk):
@@ -87,5 +87,5 @@ def unfollow_view(request, pk):
                 messages.add_message(request, messages.ERROR, "まだあなたはこのユーザをフォローしていません。")
     except User.DoesNotExist:
         messages.add_message(request, messages.ERROR, "このユーザは存在しません。")
-    url = reverse_lazy('user:profile', kwargs={'pk': following.pk })
+    url = reverse('user:profile', kwargs={'pk': following.pk })
     return HttpResponseRedirect(url)
