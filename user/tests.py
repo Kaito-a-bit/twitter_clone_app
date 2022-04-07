@@ -25,6 +25,7 @@ class SignUpViewTests(TestCase):
         self.response = self.client.post(reverse('user:signup'), data)
         self.assertRedirects(self.response, '/home/')
 
+
 class HomeViewTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
@@ -116,6 +117,7 @@ class LogInTests(TestCase):
         })
         self.assertRedirects(self.response, '/home/')
 
+
 class LogInErrorTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
@@ -133,6 +135,7 @@ class LogOutTests(TestCase):
     def test_get_success(self):
         self.response = self.client.get(reverse('logout'))
         self.assertRedirects(self.response, '/')
+
 
 class FollowViewTests(TestCase):
     def setUp(self):
@@ -169,6 +172,7 @@ class FollowViewTests(TestCase):
         self.response = self.client.post(url)
         model = ConnectionModel.objects.filter(follower=self.user, following=self.user)
         self.assertEqual(model.count(),0)
+
 
 class UnfollowTests(TestCase):
     def setUp(self):
