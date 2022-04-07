@@ -152,12 +152,17 @@ class FollowViewTests(TestCase):
         self.assertEqual(model.count(),1)
         self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
 
-    def test_connection_creation(self):
-        follower = self.user
-        followee = User.objects.create_user(username='testuseasr', email='test123@gmail.com', password= 'ttt0192xds83est')
-        ConnectionModel.objects.create(follower=follower, following=followee)
-        model = ConnectionModel.objects.filter(follower=follower)
-        self.assertEqual(model.count(), 1)
+    def test_duplicate_connection_model(self):
+        '''
+        see if get_or_create() functions well or not.
+        '''
+        tester = User.objects.create_user(username='testuser2', email='test2@gmail.com', password= 'ttt019283exaqst')
+        url = reverse('user:follow', kwargs={'pk': tester.id})
+        self.response = self.client.post(url)
+        model = ConnectionModel.objects.filter(follower=self.user, following=tester)
+        self.assertEqual(model.count(),1)
+        self.response = self.client.post(url)
+        self.assertEqual(model.count(),1)
         
 class UnfollowTests(TestCase):
     def setUp(self):
