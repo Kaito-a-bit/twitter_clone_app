@@ -153,6 +153,18 @@ class FollowViewTests(TestCase):
         self.assertEqual(model.count(),1)
         self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
 
+    def test_connection_creation(self):
+        follower = self.user
+        followee = User.objects.create_user(username='testuseasr', email='test123@gmail.com', password= 'ttt0192xds83est')
+        ConnectionModel.objects.create(follower=follower, following=followee)
+        model = ConnectionModel.objects.filter(follower=follower)
+        self.assertEqual(model.count(), 1)
+        
+class UnfollowTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+        self.client.login(username='test@gmail.com', password='ttt019283est')
+        
     def test_unfollow_func(self):
         tester = User.objects.create_user(username='testuser2', email='test2@gmail.com', password= 'ttt019283exaqst')
         url = reverse('user:follow', kwargs={'pk': tester.id})
@@ -163,12 +175,3 @@ class FollowViewTests(TestCase):
         self.response = self.client.post(url)
         self.assertEqual(model.count(),0)
         self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
-
-    def test_connection_creation(self):
-        follower = self.user
-        followee = User.objects.create_user(username='testuseasr', email='test123@gmail.com', password= 'ttt0192xds83est')
-        ConnectionModel.objects.create(follower=follower, following=followee)
-        model = ConnectionModel.objects.filter(follower=follower)
-        self.assertEqual(model.count(), 1)
-        
-
