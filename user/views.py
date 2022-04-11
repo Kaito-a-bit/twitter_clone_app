@@ -44,14 +44,14 @@ class ProfileView(ListView):
     model = Tweet
 
     def get_queryset(self):
-        associated_id = self.kwargs['pk']
-        user = User.objects.get(id=associated_id)
+        profile_user_id = self.kwargs['pk']
+        user = User.objects.get(id=profile_user_id)
         return Tweet.objects.filter(author=user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        associated_id = self.kwargs['pk']
-        context["author"] = User.objects.filter(id=associated_id).first()
+        profile_user_id = self.kwargs['pk']
+        context["author"] = User.objects.filter(id=profile_user_id).first()
         context["requesting_user"] = self.request.user
         return context
 
