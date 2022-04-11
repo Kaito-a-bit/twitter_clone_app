@@ -2,6 +2,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy, reverse
@@ -45,7 +46,7 @@ class ProfileView(ListView):
 
     def get_queryset(self):
         profile_user_id = self.kwargs['pk']
-        user = User.objects.get(id=profile_user_id)
+        user = get_object_or_404(User,id=profile_user_id)
         return Tweet.objects.filter(author=user)
 
     def get_context_data(self, **kwargs):
