@@ -2,6 +2,7 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, ListView
@@ -55,9 +56,10 @@ class ProfileView(ListView):
         context["author"] = get_object_or_404(User,id=profile_user_id)
         return context
 
+@login_required
 def follow_view(request, pk):
     try:
-        follower = User.objects.get(username=request.user.username)
+        follower = request.user
         following = User.objects.get(id=pk)
         if follower == following:
             messages.add_message(request, messages.ERROR, "自分をフォローすることはできません。")
@@ -72,9 +74,10 @@ def follow_view(request, pk):
     url = reverse('user:profile', kwargs={'pk': pk })
     return HttpResponseRedirect(url)
     
+@login_required
 def unfollow_view(request, pk):
     try:
-        follower = User.objects.get(username=request.user.username)
+        follower = request.user
         following = User.objects.get(id=pk)
         if follower == following:
             messages.add_message(request, messages.ERROR, "自分自身のフォローを外すことはできません。")
