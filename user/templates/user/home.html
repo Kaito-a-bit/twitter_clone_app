@@ -10,10 +10,13 @@
 </header>
 
 {% for tweet in tweet_list %}
-<p>
-    {{ tweet.author.username }}
+<div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
+  <div class="inline">
+    <a href="{% url 'user:profile' tweet.author.pk %}">{{ tweet.author.username }}</a>
     {{ tweet.created_at }}
-    {{ tweet.text }}
-</p>
+  </div>
+  {{ tweet.text }}
+</div>
+
 {% endfor %}
 {% endblock %}

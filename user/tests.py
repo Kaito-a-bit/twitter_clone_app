@@ -1,7 +1,7 @@
 
 from django.test import TestCase
 from django.urls import reverse
-from .models import User
+from .models import User, ConnectionModel
 
 class TopViewTests(TestCase):
     def test_get_success(self):
@@ -24,6 +24,7 @@ class SignUpViewTests(TestCase):
         }
         self.response = self.client.post(reverse('user:signup'), data)
         self.assertRedirects(self.response, '/home/')
+
 
 class HomeViewTests(TestCase):
     def setUp(self):
@@ -116,6 +117,7 @@ class LogInTests(TestCase):
         })
         self.assertRedirects(self.response, '/home/')
 
+
 class LogInErrorTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
@@ -133,3 +135,58 @@ class LogOutTests(TestCase):
     def test_get_success(self):
         self.response = self.client.get(reverse('logout'))
         self.assertRedirects(self.response, '/')
+
+
+class FollowViewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+        self.client.login(username='test@gmail.com', password='ttt019283est')
+
+    def test_get_success(self):
+        url = reverse('user:profile', kwargs={'pk': self.user.id})
+        self.response = self.client.get(url)
+        self.assertEqual(self.response.status_code, 200)
+    
+    def test_post_success(self):
+        tester = User.objects.create_user(username='testuser2', email='test2@gmail.com', password= 'ttt019283exaqst')
+        url = reverse('user:follow', kwargs={'pk': tester.id})
+        self.response = self.client.post(url)
+        model = ConnectionModel.objects.filter(follower=self.user, following=tester)
+        self.assertEqual(model.count(),1)
+        self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
+
+    def test_duplicate_connection_model(self):
+        '''
+        see if get_or_create() functions well or not.
+        '''
+        tester = User.objects.create_user(username='testuser2', email='test2@gmail.com', password= 'ttt019283exaqst')
+        url = reverse('user:follow', kwargs={'pk': tester.id})
+        self.response = self.client.post(url)
+        model = ConnectionModel.objects.filter(follower=self.user, following=tester)
+        self.assertEqual(model.count(),1)
+        self.response = self.client.post(url)
+        self.assertEqual(model.count(),1)
+
+    def test_self_following(self):
+        url = reverse('user:follow', kwargs={'pk': self.user.id})
+        self.response = self.client.post(url)
+        model = ConnectionModel.objects.filter(follower=self.user, following=self.user)
+        self.assertEqual(model.count(),0)
+
+
+class UnfollowTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+        self.client.login(username='test@gmail.com', password='ttt019283est')
+
+    def test_post_success(self):
+        tester = User.objects.create_user(username='testuser2', email='test2@gmail.com', password= 'ttt019283exaqst')
+        url = reverse('user:follow', kwargs={'pk': tester.id})
+        self.response = self.client.post(url)
+        model = ConnectionModel.objects.filter(follower=self.user, following=tester)
+        self.assertEqual(model.count(),1)
+        url = reverse('user:unfollow', kwargs={'pk': tester.id})
+        self.response = self.client.post(url)
+        self.assertEqual(model.count(),0)
+        self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
+
