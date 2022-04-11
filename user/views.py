@@ -52,8 +52,7 @@ class ProfileView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         profile_user_id = self.kwargs['pk']
-        context["author"] = User.objects.filter(id=profile_user_id).first()
-        context["requesting_user"] = self.request.user
+        context["author"] = get_object_or_404(User,id=profile_user_id)
         return context
 
 def follow_view(request, pk):

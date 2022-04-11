@@ -8,7 +8,7 @@
   <a href="{% url 'logout' %}">ログアウトする</a>
   <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
   <a href="{% url 'user:home' %}">ホームに戻る</a>
-  {% if author.username == requesting_user.username %}
+  {% if author.username == request.user.username %}
   <a>このユーザは自分のためフォロー・アンフォローはできません。</a>
   {% else %}
   <a href="{% url 'user:follow' pk=author.id %}">このユーザをフォローする</a>
