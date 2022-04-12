@@ -10,7 +10,7 @@ from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from user.models import ConnectionModel, User
 from .forms import SignUpForm
-from tweet.models import Tweet
+from tweet.models import Tweet, LikeModel
 
 class TopView(TemplateView):
     template_name = 'user/top.html'
@@ -92,3 +92,17 @@ def unfollow_view(request, pk):
         messages.add_message(request, messages.ERROR, "このユーザは存在しません。")
     url = reverse('user:profile', kwargs={'pk': following.pk })
     return HttpResponseRedirect(url)
+
+def LikeView(request):
+    if request.method == "POST":
+        tweet = get_object_or_404(tweet, pk=request.POST.get('article_id'))
+        user = request.user
+        liked = False
+        like = LikeModel.objects.filter(tweet=tweet, user=user)
+        if like.exists():
+            like.delete()
+        else:
+            like.create(tweet=tweet, user=user)
+            liked = True
+            
+            
