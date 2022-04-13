@@ -1,4 +1,5 @@
 
+from multiprocessing import get_context
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,6 +9,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseForbidden, HttpResponseRedirect
+import user
 from user.models import ConnectionModel, User
 from .forms import SignUpForm
 from tweet.models import Tweet, LikeModel
@@ -20,7 +22,18 @@ class HomeView(LoginRequiredMixin, ListView):
     template_name = 'user/home.html'
     login_url = 'login'
     model = Tweet
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tweets = Tweet.objects.all()
+        liked_list = []
+        for tweet in tweets:
+            liked = tweet.likemodel_set.filter(user=self.request.user)
+            if liked.exists():
+                liked_list.append(tweet.id)
+        context["user_fav_list"] = liked_list
+        return context
+
 
 class SignUpView(CreateView):
     form_class = SignUpForm
@@ -54,14 +67,6 @@ class ProfileView(ListView):
         context = super().get_context_data(**kwargs)
         profile_user_id = self.kwargs['pk']
         context["author"] = get_object_or_404(User,id=profile_user_id)
-
-        tweets = Tweet.objects.all()
-        liked_list = []
-        for tweet in tweets:
-            liked = tweet.like_Model.set.filter(user=self.request.user)
-            if liked.exists():
-                liked_list.append(tweet.id)
-        context["liked_list"] = liked_list
         return context
 
 @login_required
@@ -117,3 +122,4 @@ def LikeView(request):
             'liked': liked,
             'count': tweet.likeModel_set.count(),
         }
+
