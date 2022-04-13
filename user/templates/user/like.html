@@ -1,4 +1,4 @@
-<form action="{% url 'like' %}" method="POST">
+<form action="{% url 'like' tweet.pk %}" method="POST">
   {% csrf_token %}
   {% if article.id in liked_list %}
       <button id="like" name="{{article.id}}"><i class="fas fa-lg fa-heart like-red"></i></button>
