@@ -122,4 +122,4 @@ def LikeView(request):
             'liked': liked,
             'count': tweet.likeModel_set.count(),
         }
-
+        
