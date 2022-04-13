@@ -1,9 +1,37 @@
-<form action="{% url 'user:like' %}" method="POST">
+<form action="{% url 'user:like' tweet.pk %}" method="POST">
   {% csrf_token %}
-  {% if tweet_id in liked_list %}
-      <button id="like" name="{{article.id}}"><i class="fas fa-lg fa-heart like-red"></i></button>
+  {% if tweet.id in liked_list %}
+      <button id="like" name="{{tweet.id}}"><i class="fas fa-lg fa-heart like-red"></i></button>
   {% else %}
-      <button id="like" name="{{article.id}}">まだいいねしてない<i class="far fa-lg fa-heart"></i></button>      
+      <button id="like" name="{{tweet.id}}">まだいいねしてない<i class="far fa-lg fa-heart"></i></button>      
   {% endif %}
 </form>
-<p name="{{article.id}}-count" class="count"> {{ tweet.likemodel_set.count }} </p>
+<p name="{{tweet_id}}-count" class="count"> {{ tweet.likemodel_set.count }} </p>
+
+<script type="text/javascript">
+    $(document).ready(function(event){
+        $(document).on('click', '#like', function(event){
+            event.preventDefault();
+            print('called')
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'user:like' tweet.pk %}",
+                data: {
+                    'tweet_id': $(this).attr('name'),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'},
+                dataType: 'json',
+                success: function(response){
+                    selector = document.getElementsByName(response.tweet_id);
+                    if(response.liked){
+                        $(selector).html("<i class='fas fa-lg fa-heart'></i>");
+                    }
+                    else {
+                        $(selector).html("<i class='far fa-lg fa-heart'></i>");
+                    }
+                    selector2 = document.getElementsByName(response.tweet_id + "-count");
+                    $(selector2).text(response.count);
+                }
+            });
+        });
+    });
+  </script>

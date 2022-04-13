@@ -1,5 +1,4 @@
 
-from multiprocessing import get_context
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -8,8 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseForbidden, HttpResponseRedirect
-import user
+from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from user.models import ConnectionModel, User
 from .forms import SignUpForm
 from tweet.models import Tweet, LikeModel
@@ -106,20 +104,19 @@ def unfollow_view(request, pk):
     url = reverse('user:profile', kwargs={'pk': following.pk })
     return HttpResponseRedirect(url)
 
-def LikeView(request):
-    if request.method == "POST":
-        tweet = get_object_or_404(tweet, pk=request.POST.get('tweet_id'))
-        user = request.user
-        liked = False
-        like = LikeModel.objects.filter(tweet=tweet, user=user)
-        if like.exists():
-            like.delete()
-        else:
-            like.create(tweet=tweet, user=user)
-            liked = True
-        context = {
-            'tweet_id': tweet.id,
-            'liked': liked,
-            'count': tweet.likeModel_set.count(),
-        }
-        
+def LikeView(request, pk):
+    tweet = Tweet.objects.get(pk=pk)
+    user = request.user
+    liked = False
+    like = LikeModel.objects.filter(tweet=tweet, user=user)
+    if like.exists():
+        like.delete()
+    else:
+        like.create(tweet=tweet, user=user)
+        liked = True
+    context = {
+        'tweet_id': tweet.id,
+        'liked': liked,
+        'count': tweet.likemodel_set.count(),
+    }
+    return JsonResponse(context)
