@@ -1,1 +1,9 @@
-ここにいいねボタン
+<form action="{% url 'like' %}" method="POST">
+  {% csrf_token %}
+  {% if article.id in liked_list %}
+      <button id="like" name="{{article.id}}"><i class="fas fa-lg fa-heart like-red"></i></button>
+  {% else %}
+      <button id="like" name="{{article.id}}"><i class="far fa-lg fa-heart"></i></button>      
+  {% endif %}
+</form>
+<p name="{{article.id}}-count" class="count"> {{ article.like_set.count }} </p>
