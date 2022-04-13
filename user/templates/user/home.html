@@ -14,6 +14,7 @@
   <div class="inline">
     <a href="{% url 'user:profile' tweet.author.pk %}">{{ tweet.author.username }}</a>
     {{ tweet.created_at }}
+    {% include 'user/like.html' %}
   </div>
   {{ tweet.text }}
 </div>

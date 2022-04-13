@@ -54,6 +54,14 @@ class ProfileView(ListView):
         context = super().get_context_data(**kwargs)
         profile_user_id = self.kwargs['pk']
         context["author"] = get_object_or_404(User,id=profile_user_id)
+
+        tweets = Tweet.objects.all()
+        liked_list = []
+        for tweet in tweets:
+            liked = tweet.like_Model.set.filter(user=self.request.user)
+            if liked.exists():
+                liked_list.append(tweet.id)
+        context["liked_list"] = liked_list
         return context
 
 @login_required
@@ -93,16 +101,19 @@ def unfollow_view(request, pk):
     url = reverse('user:profile', kwargs={'pk': following.pk })
     return HttpResponseRedirect(url)
 
-def LikeView(request):
-    if request.method == "POST":
-        tweet = get_object_or_404(tweet, pk=request.POST.get('article_id'))
-        user = request.user
-        liked = False
-        like = LikeModel.objects.filter(tweet=tweet, user=user)
-        if like.exists():
-            like.delete()
-        else:
-            like.create(tweet=tweet, user=user)
-            liked = True
-            
-            
+# def LikeView(request):
+#     if request.method == "POST":
+#         tweet = get_object_or_404(tweet, pk=request.POST.get('tweet_id'))
+#         user = request.user
+#         liked = False
+#         like = LikeModel.objects.filter(tweet=tweet, user=user)
+#         if like.exists():
+#             like.delete()
+#         else:
+#             like.create(tweet=tweet, user=user)
+#             liked = True
+#         context = {
+#             'tweet_id': tweet.id,
+#             'liked': liked,
+#             'count': tweet.likeModel_set.count(),
+#         }
