@@ -1,9 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
+</head>
+<body>
 <form action="{% url 'user:like' tweet.pk %}" method="POST">
   {% csrf_token %}
   {% if tweet.id in liked_list %}
-      <button id="like" name="{{tweet.id}}"><i class="fas fa-lg fa-heart like-red"></i></button>
+      <button id="like" name="{{tweet.id}}"><i class="fas fa-lg fa-heart like-red">良いね</i></button>
   {% else %}
-      <button id="like" name="{{tweet.id}}">まだいいねしてない<i class="far fa-lg fa-heart"></i></button>      
+      <button id="like" name="{{tweet.id}}"><i class="far fa-lg fa-heart">まだいいねしてない</i></button>      
   {% endif %}
 </form>
 <p name="{{tweet_id}}-count" class="count"> {{ tweet.likemodel_set.count }} </p>
@@ -26,7 +32,7 @@
                         $(selector).html("<i class='fas fa-lg fa-heart'></i>");
                     }
                     else {
-                        $(selector).html("<i class='far fa-lg fa-heart'></i>");
+                        $(selector).html("<i class='fas fa-lg fa-heart'></i>");
                     }
                     selector2 = document.getElementsByName(response.tweet_id + "-count");
                     $(selector2).text(response.count);
@@ -34,4 +40,6 @@
             });
         });
     });
-  </script>
+</script>
+</body>
+</html>
