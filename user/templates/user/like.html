@@ -4,19 +4,18 @@
     <script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
 </head>
 <body>
-<form action="{% url 'user:like' tweet.pk %}" method="POST">
   {% csrf_token %}
   {% if tweet.id in liked_list %}
-      <button id="like+{{ tweet.id }}" name="{{tweet.id}}"><i class="fas fa-lg fa-heart like-red">良いね</i></button>
+      <button id="like{{ tweet.id }}" name="{{tweet.id}}"><i class="fas fa-lg fa-heart like-red">良いね</i></button>
   {% else %}
-      <button id="like+{{ tweet.id }}" name="{{tweet.id}}"><i class="far fa-lg fa-heart">まだいいねしてない</i></button>      
+      <button id="like{{ tweet.id }}" name="{{tweet.id}}"><i class="far fa-lg fa-heart">まだいいねしてない</i></button>      
   {% endif %}
-</form>
 <p name="{{tweet.id}}-count" class="count"> {{ tweet.likemodel_set.count }} </p>
 
 <script type="text/javascript">
     $(document).ready(function(event){
-        $(document).on('click', '#like+{{ tweet.id }}', function(event){
+        $(document).on('click', '#like{{ tweet.id }}', function(event){
+            console.log("called")
             event.preventDefault();
             $.ajax({
                 type: 'POST',
@@ -24,8 +23,8 @@
                 data: {
                     'tweet_id': $(this).attr('name'),
                     'csrfmiddlewaretoken': '{{ csrf_token }}'},
-                dataType: 'json',
-                success: function(response){
+                    dataType: 'json',
+                    success: function(response){
                     selector = document.getElementsByName(response.tweet_id);
                     if(response.liked){
                         $(selector).html("<i class='fas fa-lg fa-heart'></i>");
