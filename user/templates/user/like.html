@@ -3,7 +3,7 @@
 {% endblock %}
 
 {% csrf_token %}
-{% if tweet.id in liked_list %}
+{% if tweet.id in user_fav_list %}
 <button id="like{{ tweet.id }}" name="{{tweet.id}}" class="fav"><i class="fas fa-lg fa-heart like-red"></i></button>
 {% else %}
 <button id="like{{ tweet.id }}" name="{{tweet.id}}" class="fav"><i class="far fa-lg fa-heart"></i></button>
@@ -15,7 +15,6 @@
 <script type="text/javascript">
     $(document).ready(function (event) {
         $(document).on('click', '#like{{ tweet.id }}', function (event) {
-            console.log("called")
             event.preventDefault();
             $.ajax({
                 type: 'POST',
@@ -28,9 +27,11 @@
                 success: function (response) {
                     selector = document.getElementsByName(response.tweet_id);
                     if (response.liked) {
+                        console.log("called: liked")
                         $(selector).html("<i class='fas fa-lg fa-heart'></i>");
                     }
                     else {
+                        console.log("called: normal")
                         $(selector).html("<i class='fas fa-lg fa-heart'></i>");
                     }
                     selector2 = document.getElementsByName(response.tweet_id + "-count");
