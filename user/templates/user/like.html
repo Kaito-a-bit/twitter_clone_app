@@ -1,4 +1,7 @@
-
+    {% block head_import %}
+    <link href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" rel="stylesheet">
+    {% endblock %}
+  
     {% csrf_token %}
     {% if tweet.id in liked_list %}
     <button id="like{{ tweet.id }}" name="{{tweet.id}}" class="fav"><i class="fas fa-lg fa-heart like-red"></i></button>
