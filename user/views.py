@@ -111,7 +111,7 @@ def like_view(request, pk):
     if like.exists():
         like.delete()
     else:
-        like.create(tweet=tweet, user=user)
+        Like.objects.create(tweet=tweet, user=user)
         liked = True
     context = {
         'tweet_id': tweet.id,
