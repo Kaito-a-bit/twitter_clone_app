@@ -207,6 +207,10 @@ class LikeViewTests(TestCase):
         model = Like.objects.filter(tweet=tweet)
         self.assertEqual(model.count(),1)
         self.assertEqual(self.response.status_code, 200)
+        url = reverse('user:like', kwargs={'pk': tweet.id})
+        self.response = self.client.post(url)
+        self.assertEqual(model.count(),0)
+        self.assertEqual(self.response.status_code, 200)
     
     def test_post_failure(self):
         tweet = Tweet.objects.create(text="this is test.", author=self.user)
