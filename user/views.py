@@ -9,7 +9,7 @@ from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from user.models import ConnectionModel, User
 from .forms import SignUpForm
-from tweet.models import Tweet, LikeModel
+from tweet.models import Tweet
 
 class TopView(TemplateView):
     template_name = 'user/top.html'
@@ -103,19 +103,19 @@ def unfollow_view(request, pk):
     url = reverse('user:profile', kwargs={'pk': following.pk })
     return HttpResponseRedirect(url)
 
-def LikeView(request, pk):
-    tweet = Tweet.objects.get(pk=pk)
-    user = request.user
-    liked = False
-    like = LikeModel.objects.filter(tweet=tweet, user=user)
-    if like.exists():
-        like.delete()
-    else:
-        like.create(tweet=tweet, user=user)
-        liked = True
-    context = {
-        'tweet_id': tweet.id,
-        'liked': liked,
-        'count': tweet.likemodel_set.count(),
-    }
-    return JsonResponse(context)
+# def LikeView(request, pk):
+#     tweet = Tweet.objects.get(pk=pk)
+#     user = request.user
+#     liked = False
+#     like = LikeModel.objects.filter(tweet=tweet, user=user)
+#     if like.exists():
+#         like.delete()
+#     else:
+#         like.create(tweet=tweet, user=user)
+#         liked = True
+#     context = {
+#         'tweet_id': tweet.id,
+#         'liked': liked,
+#         'count': tweet.likemodel_set.count(),
+#     }
+#     return JsonResponse(context)

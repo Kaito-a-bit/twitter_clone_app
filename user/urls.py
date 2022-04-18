@@ -9,5 +9,4 @@ urlpatterns = [
   path('home/<int:pk>', views.ProfileView.as_view(), name='profile'),
   path('home/<int:pk>/follow', views.follow_view, name='follow'),
   path('home/<int:pk>/unfollow', views.unfollow_view, name='unfollow'),
-  path('like/<uuid:pk>/', views.LikeView, name='like')
 ]
