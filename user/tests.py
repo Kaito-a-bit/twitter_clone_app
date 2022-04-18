@@ -1,5 +1,6 @@
 
 from multiprocessing import AuthenticationError
+import uuid
 from django.test import TestCase
 from django.urls import reverse
 
@@ -207,3 +208,11 @@ class LikeViewTests(TestCase):
         self.assertEqual(model.count(),1)
         self.assertEqual(self.response.status_code, 200)
     
+    def test_post_failure(self):
+        tweet = Tweet.objects.create(text="this is test.", author=self.user)
+        test_uuid = uuid.uuid4()
+        url = reverse('user:like', kwargs={'pk': test_uuid})
+        self.response = self.client.post(url)
+        model = Like.objects.filter(tweet=tweet)
+        self.assertEqual(model.count(),0)
+        self.assertEqual(self.response.status_code, 404)
