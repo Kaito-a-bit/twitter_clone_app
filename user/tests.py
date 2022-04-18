@@ -1,6 +1,9 @@
 
+from multiprocessing import AuthenticationError
 from django.test import TestCase
 from django.urls import reverse
+
+from tweet.models import LikeModel, Tweet
 from .models import User, ConnectionModel
 
 class TopViewTests(TestCase):
@@ -190,3 +193,17 @@ class UnfollowTests(TestCase):
         self.assertEqual(model.count(),0)
         self.assertRedirects(self.response, reverse('user:profile', kwargs={'pk': tester.id}))
 
+
+class LikeViewTests(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='testuser', email='test@gmail.com', password= 'ttt019283est')
+        self.client.login(username='test@gmail.com', password='ttt019283est')
+
+    def test_post_success(self):
+        tweet = Tweet.objects.create(text="this is test.", author=self.user)
+        url = reverse('user:like', kwargs={'pk': tweet.id})
+        self.response = self.client.post(url)
+        model = LikeModel.objects.filter(tweet=tweet)
+        self.assertEqual(model.count(),1)
+        self.assertEqual(self.response.status_code, 200)
+    
