@@ -10,3 +10,7 @@ class Tweet(models.Model):
     created_at = models.DateTimeField(verbose_name='投稿日時', default=timezone.now)
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+class Like(models.Model):
+    tweet = models.ForeignKey(Tweet, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
