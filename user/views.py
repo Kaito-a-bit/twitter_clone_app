@@ -104,7 +104,7 @@ def unfollow_view(request, pk):
     return HttpResponseRedirect(url)
 
 def like_view(request, pk):
-    tweet = Tweet.objects.get(pk=pk)
+    tweet = get_object_or_404(Tweet, pk=pk)
     user = request.user
     liked = False
     like = Like.objects.filter(tweet=tweet, user=user)
