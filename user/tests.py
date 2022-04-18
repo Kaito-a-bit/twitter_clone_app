@@ -3,7 +3,7 @@ from multiprocessing import AuthenticationError
 from django.test import TestCase
 from django.urls import reverse
 
-from tweet.models import LikeModel, Tweet
+from tweet.models import Like, Tweet
 from .models import User, ConnectionModel
 
 class TopViewTests(TestCase):
@@ -203,7 +203,7 @@ class LikeViewTests(TestCase):
         tweet = Tweet.objects.create(text="this is test.", author=self.user)
         url = reverse('user:like', kwargs={'pk': tweet.id})
         self.response = self.client.post(url)
-        model = LikeModel.objects.filter(tweet=tweet)
+        model = Like.objects.filter(tweet=tweet)
         self.assertEqual(model.count(),1)
         self.assertEqual(self.response.status_code, 200)
     
