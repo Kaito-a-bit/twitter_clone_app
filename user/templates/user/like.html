@@ -1,43 +1,42 @@
-    {% block head_import %}
-    <link href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" rel="stylesheet">
-    {% endblock %}
-  
-    {% csrf_token %}
-    {% if tweet.id in liked_list %}
-    <button id="like{{ tweet.id }}" name="{{tweet.id}}" class="fav"><i class="fas fa-lg fa-heart like-red"></i></button>
-    {% else %}
-    <button id="like{{ tweet.id }}" name="{{tweet.id}}" class="fav"><i class="far fa-lg fa-heart"></i></button>
-    {% endif %}
-    <p name="{{tweet.id}}-count" class="count"> {{ tweet.likemodel_set.count }} </p>
-    
-    <script src="https://code.jquery.com/jquery-3.5.0.js"
-    integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc=" crossorigin="anonymous"></script>
-    <script type="text/javascript">
-        $(document).ready(function (event) {
-            $(document).on('click', '#like{{ tweet.id }}', function (event) {
-                console.log("called")
-                event.preventDefault();
-                $.ajax({
-                    type: 'POST',
-                    url: "{% url 'user:like' tweet.pk %}",
-                    data: {
-                        'tweet_id': $(this).attr('name'),
-                        'csrfmiddlewaretoken': '{{ csrf_token }}'
-                    },
-                    dataType: 'json',
-                    success: function (response) {
-                        selector = document.getElementsByName(response.tweet_id);
-                        if (response.liked) {
-                            $(selector).html("<i class='fas fa-lg fa-heart'></i>");
-                        }
-                        else {
-                            $(selector).html("<i class='fas fa-lg fa-heart'></i>");
-                        }
-                        selector2 = document.getElementsByName(response.tweet_id + "-count");
-                        $(selector2).text(response.count);
+{% block head_import %}
+<link href="https://use.fontawesome.com/releases/v5.15.1/css/all.css" rel="stylesheet">
+{% endblock %}
+
+{% csrf_token %}
+{% if tweet.id in liked_list %}
+<button id="like{{ tweet.id }}" name="{{tweet.id}}" class="fav"><i class="fas fa-lg fa-heart like-red"></i></button>
+{% else %}
+<button id="like{{ tweet.id }}" name="{{tweet.id}}" class="fav"><i class="far fa-lg fa-heart"></i></button>
+{% endif %}
+<p name="{{tweet.id}}-count" class="count"> {{ tweet.likemodel_set.count }} </p>
+
+<script src="https://code.jquery.com/jquery-3.5.0.js" integrity="sha256-r/AaFHrszJtwpe+tHyNi/XCfMxYpbsRg2Uqn0x3s2zc="
+    crossorigin="anonymous"></script>
+<script type="text/javascript">
+    $(document).ready(function (event) {
+        $(document).on('click', '#like{{ tweet.id }}', function (event) {
+            console.log("called")
+            event.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: "{% url 'user:like' tweet.pk %}",
+                data: {
+                    'tweet_id': $(this).attr('name'),
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    selector = document.getElementsByName(response.tweet_id);
+                    if (response.liked) {
+                        $(selector).html("<i class='fas fa-lg fa-heart'></i>");
                     }
-                });
+                    else {
+                        $(selector).html("<i class='fas fa-lg fa-heart'></i>");
+                    }
+                    selector2 = document.getElementsByName(response.tweet_id + "-count");
+                    $(selector2).text(response.count);
+                }
             });
         });
-    </script>
-
+    });
+</script>
