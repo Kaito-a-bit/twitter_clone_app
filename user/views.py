@@ -25,7 +25,7 @@ class HomeView(LoginRequiredMixin, ListView):
         tweets = Tweet.objects.all()
         liked_list = []
         for tweet in tweets:
-            liked = tweet.like_set.filter(user=self.request.user)
+            liked = tweet.like_tweets.filter(user=self.request.user)
             if liked.exists():
                 liked_list.append(tweet.id)
         context["user_fav_list"] = liked_list
@@ -116,6 +116,6 @@ def like_view(request, pk):
     context = {
         'tweet_id': tweet.id,
         'liked': liked,
-        'count': tweet.like_set.count(),
+        'count': tweet.like_tweets.count(),
     }
     return JsonResponse(context)
