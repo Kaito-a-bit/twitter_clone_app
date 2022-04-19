@@ -8,6 +8,7 @@ from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from user.models import ConnectionModel, User
+from django.db.models import Prefetch
 from .forms import SignUpForm
 from tweet.models import Tweet, Like
 
@@ -22,11 +23,10 @@ class HomeView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tweets = Tweet.objects.all()
+        tweets = Tweet.objects.prefetch_related('like_tweets').all()
         liked_list = []
         for tweet in tweets:
-            liked = tweet.like_tweets.filter(user=self.request.user)
-            if liked.exists():
+            if tweet.like_tweets.filter(user=self.request.user).exists():
                 liked_list.append(tweet.id)
         context["user_fav_list"] = liked_list
         return context
