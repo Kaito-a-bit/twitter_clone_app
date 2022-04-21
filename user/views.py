@@ -19,7 +19,7 @@ class TopView(TemplateView):
 class HomeView(LoginRequiredMixin, ListView):
     template_name = 'user/home.html'
     login_url = 'login'
-    model = Tweet
+    queryset = Tweet.objects.select_related('author')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
