@@ -1,4 +1,3 @@
-
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,10 +6,11 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView, ListView
 from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseForbidden, HttpResponseRedirect
+from django.http import HttpResponseForbidden, HttpResponseRedirect, JsonResponse
 from user.models import ConnectionModel, User
+from django.db.models import Prefetch, Count
 from .forms import SignUpForm
-from tweet.models import Tweet
+from tweet.models import Tweet, Like
 
 class TopView(TemplateView):
     template_name = 'user/top.html'
@@ -19,8 +19,14 @@ class TopView(TemplateView):
 class HomeView(LoginRequiredMixin, ListView):
     template_name = 'user/home.html'
     login_url = 'login'
-    model = Tweet
-    
+    queryset = Tweet.objects.select_related('author')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tweets = Tweet.objects.prefetch_related(Prefetch('like_tweets', queryset=Like.objects.filter(user=self.request.user))).annotate(user_like_count=Count('like_tweets')).all()
+        context["user_fav_list"] = [t.id for t in tweets if t.user_like_count == 0]
+        return context
+
 
 class SignUpView(CreateView):
     form_class = SignUpForm
@@ -92,3 +98,20 @@ def unfollow_view(request, pk):
         messages.add_message(request, messages.ERROR, "このユーザは存在しません。")
     url = reverse('user:profile', kwargs={'pk': following.pk })
     return HttpResponseRedirect(url)
+
+def like_view(request, pk):
+    tweet = get_object_or_404(Tweet, pk=pk)
+    user = request.user
+    liked = False
+    like = Like.objects.filter(tweet=tweet, user=user)
+    if like.exists():
+        like.delete()
+    else:
+        Like.objects.create(tweet=tweet, user=user)
+        liked = True
+    context = {
+        'tweet_id': tweet.id,
+        'liked': liked,
+        'count': tweet.like_tweets.count(),
+    }
+    return JsonResponse(context)

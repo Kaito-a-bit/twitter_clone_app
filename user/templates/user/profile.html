@@ -2,34 +2,37 @@
 プロフィール画面
 {% endblock %}
 
-{% block itemsbeforehome %}
-<header>
-  {{ author.username }}さんのプロフィールです。
-  <a href="{% url 'logout' %}">ログアウトする</a>
-  <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
-  <a href="{% url 'user:home' %}">ホームに戻る</a>
-  {% if author.username == request.user.username %}
-  <a>このユーザは自分のためフォロー・アンフォローはできません。</a>
-  {% else %}
-  <a href="{% url 'user:follow' pk=author.id %}">このユーザをフォローする</a>
-  <a href="{% url 'user:unfollow' pk=author.id%}">このユーザのフォローを外す</a>
-  {% endif %}
-</header>
-
-{% for tweet in tweet_list %}
-<div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
-  <div class="inline">
-    {{ tweet.author.username }}
-    {{ tweet.created_at }}
+<body>
+  {% block itemsbeforehome %}
+  <header>
+    {{ author.username }}さんのプロフィールです。
+    <a href="{% url 'logout' %}">ログアウトする</a>
+    <a href="{% url 'tweet:tweet' %}"> ツイートする</a>
+    <a href="{% url 'user:home' %}">ホームに戻る</a>
+    {% if author.username == request.user.username %}
+    <a>このユーザは自分のためフォロー・アンフォローはできません。</a>
+    {% else %}
+    <a href="{% url 'user:follow' pk=author.id %}">このユーザをフォローする</a>
+    <a href="{% url 'user:unfollow' pk=author.id%}">このユーザのフォローを外す</a>
+    {% endif %}
+  </header>
+  
+  {% for tweet in tweet_list %}
+  <div style="padding: 10px; margin-bottom: 10px; border: 1px solid #333333;">
+    <div class="inline">
+      {{ tweet.author.username }}
+      {{ tweet.created_at }}
+    </div>
+    {{ tweet.text }}
   </div>
-  {{ tweet.text }}
-</div>
-
-{% endfor %}
-
-{% if messages %}
-{% for message in messages %}
-    <li>{{ message.tags }}:{{ message }}</li>
-    {% endfor %}
-{% endif %}
-{% endblock %}
+  
+  {% endfor %}
+  
+  {% if messages %}
+  {% for message in messages %}
+  <li>{{ message.tags }}:{{ message }}</li>
+  {% endfor %}
+  {% endif %}
+  {% endblock %}
+  
+</body>

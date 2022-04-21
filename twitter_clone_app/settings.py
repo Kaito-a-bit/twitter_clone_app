@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'tweet.apps.TweetConfig',
     'dbbackup',
+    'debug_toolbar', 
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -52,7 +53,18 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
+
+# DESIGNATE CONNECTION DESTINATION
+INTERNAL_IPS = ['127.0.0.1']
+
+
+def show_toolbar(request):
+    return True
+DEBUG_TOOLBAR_CONFIG = {
+    "SHOW_TOOLBAR_CALLBACK" : show_toolbar,
+}
 
 ROOT_URLCONF = 'twitter_clone_app.urls'
 

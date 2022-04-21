@@ -1,7 +1,7 @@
 {% block content %}
 ホーム画面
 {% endblock %}
-
+<body>
 {% block itemsbeforehome %}
 <header>
   {{ user.username }}さんようこそ。
@@ -14,9 +14,11 @@
   <div class="inline">
     <a href="{% url 'user:profile' tweet.author.pk %}">{{ tweet.author.username }}</a>
     {{ tweet.created_at }}
+    {% include 'user/like.html' %}
   </div>
   {{ tweet.text }}
 </div>
 
 {% endfor %}
 {% endblock %}
+</body>
