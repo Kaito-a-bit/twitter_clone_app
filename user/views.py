@@ -23,12 +23,8 @@ class HomeView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tweets = Tweet.objects.prefetch_related(Prefetch('like_tweets', queryset=Like.objects.filter(user=self.request.user), to_attr="user_like_set")).annotate(user_like_count=Count('like_tweets')).all()
-        liked_list = []
-        for tweet in tweets:
-            # aggregateの数値で分岐
-            if tweet.user_like_count == 0:
-                liked_list.append(tweet.id)
+        tweets = Tweet.objects.prefetch_related(Prefetch('like_tweets', queryset=Like.objects.filter(user=self.request.user))).annotate(user_like_count=Count('like_tweets')).all()
+        liked_list = [t.id for t in tweets if t.user_like_count == 0]
         context["user_fav_list"] = liked_list
         return context
 
